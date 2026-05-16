@@ -1,0 +1,19 @@
+# WordPress sensitive files
+wp-config.php
+
+# Debug log
+wp-content/debug.log
+
+# Uploads (large media files)
+wp-content/uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
