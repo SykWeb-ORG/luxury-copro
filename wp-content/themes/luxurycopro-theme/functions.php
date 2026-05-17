@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '1.3.0');
+define('LC_VERSION', '1.4.0');
 
 /* ── THEME SETUP ── */
 function lc_setup() {

@@ -126,7 +126,7 @@ nav.compact .logo img{height:36px}
 }
 
 /* ══════ HERO ══════ */
-.hero{position:relative;min-height:calc(100vh - var(--nav-h,80px));display:flex;align-items:center;perspective:1200px;box-sizing:border-box;overflow:visible}
+.hero{position:relative;min-height:calc(100vh - var(--nav-h,80px));display:flex;align-items:center;perspective:1200px;box-sizing:border-box;overflow:visible;padding-top:3rem;padding-bottom:3rem}
 
 .hero-parallax-bg{position:absolute;inset:0;background:
   radial-gradient(ellipse 80% 60% at 70% 40%, rgba(41,104,160,.08), transparent),

@@ -73,7 +73,9 @@ $is_fallback = $prop_data['source'] === 'fallback';
 
   <div class="hero-showcase">
     <?php
-    $hero_cards = array_slice($properties, 0, 3);
+    $hero_pool = $properties;
+    shuffle($hero_pool);
+    $hero_cards = array_slice($hero_pool, 0, 3);
     foreach ($hero_cards as $ci => $hc) :
       $fc_class = 'fc-' . ($ci + 1);
       $thumb = !empty($hc['has_thumb']) && !empty($hc['thumb_url']) ? $hc['thumb_url'] : '';
