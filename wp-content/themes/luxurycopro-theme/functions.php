@@ -219,6 +219,23 @@ function lc_customize_register($wp_customize) {
         $wp_customize->add_control($id, ['label' => $f['label'], 'section' => 'lc_about', 'type' => $f['type']]);
     }
 
+    // --- Section: Références ---
+    $wp_customize->add_section('lc_refs', [
+        'title' => __('Nos Références', 'luxurycopro'),
+        'panel' => 'lc_panel',
+    ]);
+    $wp_customize->add_setting('lc_refs_visible', ['default' => true, 'sanitize_callback' => 'wp_validate_boolean']);
+    $wp_customize->add_control('lc_refs_visible', ['label' => 'Afficher la section', 'section' => 'lc_refs', 'type' => 'checkbox']);
+    $refs_fields = [
+        'lc_refs_label' => ['label' => 'Petit label', 'default' => 'Références', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
+        'lc_refs_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Ils nous font <span style="color:var(--gold)">confiance</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_refs_intro' => ['label' => 'Texte d\'introduction', 'default' => 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
+    ];
+    foreach ($refs_fields as $id => $f) {
+        $wp_customize->add_setting($id, ['default' => $f['default'], 'sanitize_callback' => $f['sanitize'], 'transport' => 'refresh']);
+        $wp_customize->add_control($id, ['label' => $f['label'], 'section' => 'lc_refs', 'type' => $f['type']]);
+    }
+
     // --- Section: Nos Biens ---
     $wp_customize->add_section('lc_biens', [
         'title' => __('Nos Biens', 'luxurycopro'),
@@ -301,9 +318,115 @@ function lc_fallback_properties() {
     ];
 }
 
+/* ── CPT: REFERENCES ── */
+function lc_register_references_cpt() {
+    register_post_type('reference', [
+        'labels' => [
+            'name'               => __('Références', 'luxurycopro'),
+            'singular_name'      => __('Référence', 'luxurycopro'),
+            'add_new'            => __('Ajouter une référence', 'luxurycopro'),
+            'add_new_item'       => __('Ajouter une nouvelle référence', 'luxurycopro'),
+            'edit_item'          => __('Modifier la référence', 'luxurycopro'),
+            'view_item'          => __('Voir la référence', 'luxurycopro'),
+            'all_items'          => __('Toutes les références', 'luxurycopro'),
+            'search_items'       => __('Rechercher une référence', 'luxurycopro'),
+            'not_found'          => __('Aucune référence trouvée', 'luxurycopro'),
+            'not_found_in_trash' => __('Aucune référence dans la corbeille', 'luxurycopro'),
+            'menu_name'          => __('Références', 'luxurycopro'),
+        ],
+        'public'       => false,
+        'show_ui'      => true,
+        'has_archive'  => false,
+        'menu_icon'    => 'dashicons-groups',
+        'supports'     => ['title', 'thumbnail'],
+        'show_in_rest' => true,
+    ]);
+}
+add_action('init', 'lc_register_references_cpt');
+
+function lc_reference_meta_boxes() {
+    add_meta_box('lc_reference_details', __('Détails de la référence', 'luxurycopro'), 'lc_reference_meta_html', 'reference', 'normal', 'high');
+}
+add_action('add_meta_boxes', 'lc_reference_meta_boxes');
+
+function lc_reference_meta_html($post) {
+    wp_nonce_field('lc_reference_meta', 'lc_reference_nonce');
+    $fields = [
+        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Gestion de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
+        'ref_location' => ['label' => 'Localisation', 'type' => 'text'],
+        'ref_desc'     => ['label' => 'Description courte', 'type' => 'textarea'],
+        'ref_order'    => ['label' => 'Ordre d\'affichage (nombre)', 'type' => 'text'],
+        'ref_active'   => ['label' => 'Actif', 'type' => 'checkbox'],
+    ];
+    echo '<table class="form-table">';
+    foreach ($fields as $key => $f) {
+        $val = get_post_meta($post->ID, '_lc_' . $key, true);
+        if ($key === 'ref_active' && $val === '') $val = '1';
+        echo '<tr><th><label for="lc_' . esc_attr($key) . '">' . esc_html($f['label']) . '</label></th><td>';
+        if ($f['type'] === 'textarea') {
+            echo '<textarea id="lc_' . esc_attr($key) . '" name="lc_' . esc_attr($key) . '" rows="3" class="large-text">' . esc_textarea($val) . '</textarea>';
+        } elseif ($f['type'] === 'select') {
+            echo '<select id="lc_' . esc_attr($key) . '" name="lc_' . esc_attr($key) . '">';
+            foreach ($f['options'] as $opt) {
+                echo '<option value="' . esc_attr($opt) . '"' . selected($val, $opt, false) . '>' . esc_html($opt) . '</option>';
+            }
+            echo '</select>';
+        } elseif ($f['type'] === 'checkbox') {
+            echo '<input type="checkbox" id="lc_' . esc_attr($key) . '" name="lc_' . esc_attr($key) . '" value="1"' . checked($val, '1', false) . '>';
+        } else {
+            echo '<input type="text" id="lc_' . esc_attr($key) . '" name="lc_' . esc_attr($key) . '" value="' . esc_attr($val) . '" class="regular-text">';
+        }
+        echo '</td></tr>';
+    }
+    echo '</table>';
+}
+
+function lc_save_reference_meta($post_id) {
+    if (!isset($_POST['lc_reference_nonce']) || !wp_verify_nonce($_POST['lc_reference_nonce'], 'lc_reference_meta')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    $text_keys = ['ref_service', 'ref_location', 'ref_desc', 'ref_order'];
+    foreach ($text_keys as $key) {
+        if (isset($_POST['lc_' . $key])) {
+            update_post_meta($post_id, '_lc_' . $key, sanitize_textarea_field($_POST['lc_' . $key]));
+        }
+    }
+    update_post_meta($post_id, '_lc_ref_active', isset($_POST['lc_ref_active']) ? '1' : '0');
+}
+add_action('save_post_reference', 'lc_save_reference_meta');
+
+function lc_get_references() {
+    $query = new WP_Query([
+        'post_type'      => 'reference',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'meta_key'       => '_lc_ref_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
+        'meta_query'     => [['key' => '_lc_ref_active', 'value' => '1']],
+    ]);
+    $refs = [];
+    while ($query->have_posts()) {
+        $query->the_post();
+        $id = get_the_ID();
+        $refs[] = [
+            'name'      => get_the_title(),
+            'service'   => get_post_meta($id, '_lc_ref_service', true),
+            'location'  => get_post_meta($id, '_lc_ref_location', true),
+            'desc'      => get_post_meta($id, '_lc_ref_desc', true),
+            'has_thumb' => has_post_thumbnail(),
+            'thumb_url' => get_the_post_thumbnail_url($id, 'medium'),
+        ];
+    }
+    wp_reset_postdata();
+    return $refs;
+}
+
 /* ── FLUSH REWRITE ON ACTIVATION ── */
 function lc_activate() {
     lc_register_properties_cpt();
+    lc_register_references_cpt();
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'lc_activate');

@@ -19,6 +19,14 @@ if (hamburger && mobileMenu) {
     mobileMenu.classList.toggle('open');
     document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
   });
+  var mmClose = document.getElementById('mmClose');
+  if (mmClose) {
+    mmClose.addEventListener('click', function(){
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
   document.querySelectorAll('.mm-link').forEach(function(link){
     link.addEventListener('click', function(){
       hamburger.classList.remove('open');
@@ -63,9 +71,15 @@ if (dot && ring) {
 
 // ── NAV SCROLL ──
 var nav = document.getElementById('nav');
+function updateNavHeight() {
+  if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+}
 if (nav) {
+  updateNavHeight();
+  window.addEventListener('resize', updateNavHeight);
   window.addEventListener('scroll', function(){
     nav.classList.toggle('compact', window.scrollY > 60);
+    updateNavHeight();
   });
 }
 
@@ -276,7 +290,6 @@ if (waFab && waWidget) {
       if (e.key === 'Enter') waSend.click();
     });
   }
-  setTimeout(function(){ waWidget.classList.add('open'); }, 4000);
 }
 
 })();

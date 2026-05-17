@@ -55,9 +55,11 @@
     </div>
   </div>
 </nav>
+<script>document.documentElement.style.setProperty('--nav-h',document.getElementById('nav').offsetHeight+'px')</script>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" id="mmClose" aria-label="<?php esc_attr_e('Fermer le menu', 'luxurycopro'); ?>"></button>
   <a href="#accueil" class="mm-link"><?php esc_html_e('Accueil', 'luxurycopro'); ?></a>
   <a href="#presentation" class="mm-link"><?php esc_html_e('À Propos', 'luxurycopro'); ?></a>
   <a href="#biens" class="mm-link"><?php esc_html_e('Nos Biens', 'luxurycopro'); ?></a>

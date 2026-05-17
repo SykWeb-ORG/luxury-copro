@@ -113,6 +113,42 @@ $is_fallback = $prop_data['source'] === 'fallback';
 </section>
 <?php endif; ?>
 
+<?php if (lc_get_option('lc_refs_visible', true)) :
+  $refs = lc_get_references();
+  if (!empty($refs)) : ?>
+<!-- REFERENCES -->
+<section class="refs" id="references">
+  <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_refs_label', 'Références')); ?></div>
+  <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_refs_title', 'Ils nous font <span style="color:var(--gold)">confiance</span>')); ?></h2>
+  <p class="sec-sub rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_refs_intro', 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.')); ?></p>
+  <div class="refs-grid">
+    <?php foreach ($refs as $ri => $ref) :
+      $delay = $ri > 0 ? ' rv-d' . min($ri, 4) : '';
+    ?>
+    <div class="ref-card rv<?php echo esc_attr($delay); ?>">
+      <div class="ref-visual">
+        <?php if ($ref['has_thumb'] && $ref['thumb_url']) : ?>
+          <img src="<?php echo esc_url($ref['thumb_url']); ?>" alt="<?php echo esc_attr($ref['name']); ?>">
+        <?php else : ?>
+          <div class="ref-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity=".25"><path d="M3 21h18M3 7v14m6-14v14m6-14v14m6-14v14M3 7l9-4 9 4"/></svg></div>
+        <?php endif; ?>
+      </div>
+      <div class="ref-body">
+        <h3 class="ref-name"><?php echo esc_html($ref['name']); ?></h3>
+        <span class="ref-service"><?php echo esc_html($ref['service']); ?></span>
+        <?php if ($ref['location']) : ?>
+          <span class="ref-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="var(--surface)"/></svg> <?php echo esc_html($ref['location']); ?></span>
+        <?php endif; ?>
+        <?php if ($ref['desc']) : ?>
+          <p class="ref-desc"><?php echo esc_html($ref['desc']); ?></p>
+        <?php endif; ?>
+      </div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+</section>
+<?php endif; endif; ?>
+
 <?php if (lc_get_option('lc_biens_visible', true)) : ?>
 <!-- PROPERTIES -->
 <section class="properties" id="biens">
