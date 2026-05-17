@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '1.0.0');
+define('LC_VERSION', '1.1.0');
 
 /* ── THEME SETUP ── */
 function lc_setup() {
@@ -142,7 +142,7 @@ function lc_customize_register($wp_customize) {
         'lc_address_1' => ['label' => 'Adresse ligne 1', 'default' => 'Mg Rdc Imm A, Résidence Amira'],
         'lc_address_2' => ['label' => 'Adresse ligne 2', 'default' => 'Avenue 4ème DMM, Camp El Ghoul'],
         'lc_city'      => ['label' => 'Ville',         'default' => 'Marrakech'],
-        'lc_maps_embed'=> ['label' => 'Google Maps Embed URL', 'default' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3397.0!2d-8.0095!3d31.6295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDM3JzQ2LjIiTiA4wrAwMCczNC4yIlc!5e0!3m2!1sfr!2sma!4v1700000000000'],
+        'lc_maps_embed'=> ['label' => 'Google Maps Embed URL', 'default' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.5!2d-8.0135!3d31.6305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafee8d985a5bef%3A0x1c3e4a3b8e9f1d2a!2sR%C3%A9sidence%20Amira%2C%20Avenue%204%C3%A8me%20DMM%2C%20Camp%20El%20Ghoul%2C%20Marrakech!5e0!3m2!1sfr!2sma!4v1700000000000'],
     ];
     foreach ($contact_fields as $id => $f) {
         $wp_customize->add_setting($id, ['default' => $f['default'], 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'refresh']);

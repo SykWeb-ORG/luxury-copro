@@ -127,6 +127,14 @@ document.querySelectorAll('.prop-filters button').forEach(function(btn){
   btn.addEventListener('click', function(){
     document.querySelectorAll('.prop-filters button').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
+    var filter = btn.getAttribute('data-filter');
+    document.querySelectorAll('.prop-card').forEach(function(card){
+      if (filter === 'all' || card.getAttribute('data-type') === filter) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
   });
 });
 

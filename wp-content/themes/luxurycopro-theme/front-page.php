@@ -8,7 +8,7 @@ $whatsapp = esc_attr(lc_get_option('lc_whatsapp', '212700727165'));
 $address1 = esc_html(lc_get_option('lc_address_1', 'Mg Rdc Imm A, Résidence Amira'));
 $address2 = esc_html(lc_get_option('lc_address_2', 'Avenue 4ème DMM, Camp El Ghoul'));
 $city     = esc_html(lc_get_option('lc_city', 'Marrakech'));
-$maps     = esc_url(lc_get_option('lc_maps_embed', ''));
+$maps     = esc_url(lc_get_option('lc_maps_embed', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.5!2d-8.0135!3d31.6305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafee8d985a5bef%3A0x1c3e4a3b8e9f1d2a!2sR%C3%A9sidence%20Amira%2C%20Avenue%204%C3%A8me%20DMM%2C%20Camp%20El%20Ghoul%2C%20Marrakech!5e0!3m2!1sfr!2sma!4v1700000000000'));
 
 $hero_tag   = esc_html(lc_get_option('lc_hero_tag', 'Copropriété & Immobilier — Marrakech'));
 $hero_title = wp_kses_post(lc_get_option('lc_hero_title', 'Votre Patrimoine,<br><em>Notre</em><br><span class="stroke">Expertise</span>'));
@@ -103,17 +103,17 @@ $is_fallback = $prop_data['source'] === 'fallback';
       <?php endif; ?>
     </div>
     <div class="prop-filters rv rv-d2">
-      <button class="active"><?php esc_html_e('Tout', 'luxurycopro'); ?></button>
-      <button><?php esc_html_e('Vente', 'luxurycopro'); ?></button>
-      <button><?php esc_html_e('Location', 'luxurycopro'); ?></button>
-      <button><?php esc_html_e('Exclusif', 'luxurycopro'); ?></button>
+      <button class="active" data-filter="all"><?php esc_html_e('Tout', 'luxurycopro'); ?></button>
+      <button data-filter="Vente"><?php esc_html_e('Vente', 'luxurycopro'); ?></button>
+      <button data-filter="Location"><?php esc_html_e('Location', 'luxurycopro'); ?></button>
+      <button data-filter="Exclusif"><?php esc_html_e('Exclusif', 'luxurycopro'); ?></button>
     </div>
   </div>
   <div class="prop-grid">
     <?php foreach ($properties as $idx => $p) :
       $delay_class = $idx > 0 ? ' rv-d' . $idx : '';
     ?>
-    <div class="prop-card tilt rv<?php echo esc_attr($delay_class); ?>">
+    <div class="prop-card tilt rv<?php echo esc_attr($delay_class); ?>" data-type="<?php echo esc_attr($p['badge']); ?>">
       <?php if (!empty($p['has_thumb']) && !empty($p['thumb_url'])) : ?>
         <div class="p-img" style="background:url('<?php echo esc_url($p['thumb_url']); ?>') center/cover">
           <span class="p-badge <?php echo esc_attr($p['badge_class']); ?>"><?php echo esc_html($p['badge']); ?></span>
@@ -298,37 +298,50 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <section class="contact" id="contact">
   <div class="sec-label rv"><?php esc_html_e('Contact', 'luxurycopro'); ?></div>
   <h2 class="sec-title rv rv-d1"><?php esc_html_e('Parlons de Votre', 'luxurycopro'); ?><br><span style="color:var(--gold)"><?php esc_html_e('Projet', 'luxurycopro'); ?></span></h2>
-  <div class="contact-grid">
-    <div class="c-left">
-      <div class="c-info">
-        <div class="c-item rv">
-          <div class="c-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <div><h4><?php esc_html_e('Adresse', 'luxurycopro'); ?></h4><p><?php echo $address1; ?><br><?php echo $address2; ?> — <?php echo $city; ?></p></div>
+
+  <div class="ct-location-card rv rv-d2">
+    <div class="ct-loc-info">
+      <span class="ct-badge"><?php esc_html_e('Notre Bureau', 'luxurycopro'); ?></span>
+      <h3 class="ct-loc-title">Luxury Copro — <?php echo $city; ?></h3>
+      <div class="ct-loc-items">
+        <div class="ct-loc-item">
+          <div class="ct-loc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><h4><?php esc_html_e('Adresse', 'luxurycopro'); ?></h4><p><?php echo $address1; ?><br><?php echo $address2; ?>, <?php echo $city; ?></p></div>
         </div>
-        <div class="c-item rv rv-d1">
-          <div class="c-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-          <div><h4><?php esc_html_e('Téléphone', 'luxurycopro'); ?></h4><p><a href="tel:<?php echo esc_attr(preg_replace('/\s/', '', $phone1)); ?>"><?php echo $phone1; ?></a> · <a href="tel:<?php echo esc_attr(preg_replace('/\s/', '', $phone2)); ?>"><?php echo $phone2; ?></a></p></div>
+        <div class="ct-loc-item">
+          <div class="ct-loc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div><h4><?php esc_html_e('Téléphone', 'luxurycopro'); ?></h4><p><a href="tel:<?php echo esc_attr(preg_replace('/\s/', '', $phone1)); ?>"><?php echo $phone1; ?></a><br><a href="tel:<?php echo esc_attr(preg_replace('/\s/', '', $phone2)); ?>"><?php echo $phone2; ?></a></p></div>
         </div>
-        <div class="c-item rv rv-d2">
-          <div class="c-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          <div><h4><?php esc_html_e('E-mail', 'luxurycopro'); ?></h4><p><a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a></p></div>
-        </div>
-        <div class="c-item rv rv-d3">
-          <div class="c-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <div><h4>WhatsApp</h4><p><a href="<?php echo esc_url('https://wa.me/' . $whatsapp); ?>" target="_blank"><?php esc_html_e('Envoyer un message →', 'luxurycopro'); ?></a></p></div>
-        </div>
-        <div class="c-item rv rv-d4">
-          <div class="c-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div><h4><?php esc_html_e('Horaires', 'luxurycopro'); ?></h4><p><?php esc_html_e('Lun — Ven : 9h — 18h', 'luxurycopro'); ?><br><?php esc_html_e('Sam : 9h — 13h', 'luxurycopro'); ?></p></div>
+        <div class="ct-loc-item">
+          <div class="ct-loc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><h4><?php esc_html_e('Horaires', 'luxurycopro'); ?></h4><p><?php esc_html_e('Lundi - Samedi : 9h00 - 19h00', 'luxurycopro'); ?></p></div>
         </div>
       </div>
-      <?php if ($maps) : ?>
-      <div class="c-map rv rv-d3">
-        <iframe src="<?php echo esc_url($maps); ?>" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="ct-loc-actions">
+        <a href="<?php echo esc_url('https://wa.me/' . $whatsapp); ?>" target="_blank" class="btn-wa" style="border:none;font-family:'Inter',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <?php esc_html_e('Contacter via WhatsApp', 'luxurycopro'); ?>
+        </a>
+        <a href="tel:<?php echo esc_attr(preg_replace('/\s/', '', $phone1)); ?>" class="btn-gold" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <?php esc_html_e('Appelez-nous', 'luxurycopro'); ?>
+        </a>
       </div>
-      <?php endif; ?>
     </div>
-    <form class="c-form rv rv-d2" id="contactForm" aria-label="<?php esc_attr_e('Formulaire de contact', 'luxurycopro'); ?>">
+    <?php if ($maps) : ?>
+    <div class="ct-loc-map">
+      <a href="https://www.google.com/maps/search/R%C3%A9sidence+Amira+Avenue+4%C3%A8me+DMM+Camp+El+Ghoul+Marrakech" target="_blank" rel="noopener" class="c-map-link">Open in Maps <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      <iframe src="<?php echo esc_url($maps); ?>" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <?php endif; ?>
+  </div>
+
+  <div class="ct-form-card rv rv-d3">
+    <div class="ct-form-header">
+      <h3><?php esc_html_e('Envoyez-nous un message', 'luxurycopro'); ?></h3>
+      <p><?php esc_html_e('Décrivez votre projet et nous vous répondrons dans les plus brefs délais.', 'luxurycopro'); ?></p>
+    </div>
+    <form class="c-form" id="contactForm" aria-label="<?php esc_attr_e('Formulaire de contact', 'luxurycopro'); ?>">
       <div class="c-row">
         <div class="c-group"><label><?php esc_html_e('Nom Complet', 'luxurycopro'); ?></label><input type="text" id="cfName" placeholder="<?php esc_attr_e('Votre nom', 'luxurycopro'); ?>" required></div>
         <div class="c-group"><label><?php esc_html_e('Téléphone', 'luxurycopro'); ?></label><input type="tel" id="cfPhone" placeholder="06 00 00 00 00" required></div>

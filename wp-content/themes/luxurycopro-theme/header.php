@@ -17,6 +17,7 @@
 
 <!-- LOADER -->
 <div class="loader" id="loader">
+  <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/logo.png'); ?>" alt="Luxury Copro" class="loader-img">
   <div class="loader-logo" id="loaderLogo"></div>
   <div class="loader-line"></div>
 </div>
