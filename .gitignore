@@ -7,6 +7,9 @@ wp-content/debug.log
 # Uploads (large media files)
 wp-content/uploads/
 
+# Large source video files (keep only web-optimized)
+wp-content/themes/luxurycopro-theme/assets/video/hero.mp4
+
 # OS files
 .DS_Store
 Thumbs.db

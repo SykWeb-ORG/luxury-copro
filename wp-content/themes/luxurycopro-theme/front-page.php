@@ -38,32 +38,14 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- HERO -->
 <section class="hero" id="accueil">
   <div class="hero-video">
-    <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--surface) 0%,var(--bg) 50%,var(--surface-2) 100%)"></div>
+    <video autoplay muted loop playsinline preload="auto" poster="">
+      <source src="<?php echo esc_url(get_template_directory_uri() . '/assets/video/hero-web.mp4'); ?>" type="video/mp4">
+    </video>
   </div>
   <div class="hero-parallax-bg"></div>
   <div class="hero-grid"></div>
-
-  <div class="float-card fc-1">
-    <div class="fc-img"></div>
-    <div class="fc-body">
-      <div class="fc-price">2 800 000 MAD</div>
-      <div class="fc-loc">Villa · Targa, <?php echo $city; ?></div>
-    </div>
-  </div>
-  <div class="float-card fc-2">
-    <div class="fc-img"></div>
-    <div class="fc-body">
-      <div class="fc-price">850 000 MAD</div>
-      <div class="fc-loc">Appt · Guéliz</div>
-    </div>
-  </div>
-  <div class="float-card fc-3">
-    <div class="fc-img"></div>
-    <div class="fc-body">
-      <div class="fc-price">5 500 MAD/mois</div>
-      <div class="fc-loc">Location · Hivernage</div>
-    </div>
-  </div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
 
   <div class="hero-content">
     <div class="hero-tag"><span class="pulse"></span> <?php echo $hero_tag; ?></div>
@@ -73,34 +55,72 @@ $is_fallback = $prop_data['source'] === 'fallback';
       <a href="#biens" class="btn-gold"><?php echo $hero_btn1; ?></a>
       <a href="#services" class="btn-ghost"><?php echo $hero_btn2; ?></a>
     </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">150+</span>
+        <span class="hero-stat-lbl"><?php esc_html_e('Biens Gérés', 'luxurycopro'); ?></span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">98%</span>
+        <span class="hero-stat-lbl"><?php esc_html_e('Clients Satisfaits', 'luxurycopro'); ?></span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">10+</span>
+        <span class="hero-stat-lbl"><?php esc_html_e('Ans d\'Expérience', 'luxurycopro'); ?></span>
+      </div>
+    </div>
   </div>
+
+  <div class="hero-showcase">
+    <?php
+    $hero_cards = array_slice($properties, 0, 3);
+    foreach ($hero_cards as $ci => $hc) :
+      $fc_class = 'fc-' . ($ci + 1);
+      $thumb = !empty($hc['has_thumb']) && !empty($hc['thumb_url']) ? $hc['thumb_url'] : '';
+    ?>
+    <div class="float-card <?php echo $fc_class; ?>">
+      <?php if ($thumb) : ?>
+        <div class="fc-img" style="background-image:url('<?php echo esc_url($thumb); ?>')"></div>
+      <?php else : ?>
+        <div class="fc-img fc-img-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+      <?php endif; ?>
+      <div class="fc-body">
+        <div class="fc-price"><?php echo esc_html($hc['price']); ?></div>
+        <div class="fc-loc"><?php echo esc_html($hc['badge']); ?> · <?php echo esc_html($hc['location']); ?></div>
+      </div>
+      <div class="fc-shine"></div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-bar"></div>
   </div>
 </section>
 
+<?php if (lc_get_option('lc_about_visible', true)) : ?>
 <!-- ABOUT INTRO -->
 <section class="about-intro" id="presentation">
-  <div class="sec-label rv"><?php esc_html_e('Qui Sommes-Nous', 'luxurycopro'); ?></div>
-  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Notre', 'luxurycopro'); ?> <span style="color:var(--gold)"><?php esc_html_e('Société', 'luxurycopro'); ?></span></h2>
+  <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_about_label', 'Qui Sommes-Nous')); ?></div>
+  <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_about_title', 'Notre <span style="color:var(--gold)">Société</span>')); ?></h2>
   <div class="about-inner">
-    <p class="rv rv-d2"><?php esc_html_e('Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.', 'luxurycopro'); ?></p>
-    <p class="rv rv-d3"><?php esc_html_e('Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.', 'luxurycopro'); ?></p>
+    <p class="rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_about_p1', 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.')); ?></p>
+    <p class="rv rv-d3"><?php echo wp_kses_post(lc_get_option('lc_about_p2', 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.')); ?></p>
   </div>
 </section>
+<?php endif; ?>
 
+<?php if (lc_get_option('lc_biens_visible', true)) : ?>
 <!-- PROPERTIES -->
 <section class="properties" id="biens">
   <div class="prop-header">
     <div>
-      <div class="sec-label rv"><?php esc_html_e('Notre Portefeuille', 'luxurycopro'); ?></div>
-      <h2 class="sec-title rv rv-d1"><?php echo $is_fallback ? esc_html__('Exemples de Biens', 'luxurycopro') : esc_html__('Nos Biens', 'luxurycopro'); ?><br><span style="color:var(--gold)"><?php esc_html_e('Disponibles', 'luxurycopro'); ?></span></h2>
-      <?php if ($is_fallback) : ?>
-        <p class="sec-sub rv rv-d1" style="margin-bottom:1rem"><?php esc_html_e('Les biens présentés ci-dessous sont des exemples illustratifs. Pour consulter nos offres réelles et actualisées, veuillez nous contacter directement.', 'luxurycopro'); ?></p>
-      <?php else : ?>
-        <p class="sec-sub rv rv-d1" style="margin-bottom:1rem"><?php esc_html_e('Découvrez notre sélection de biens immobiliers à Marrakech. Contactez-nous pour plus d\'informations.', 'luxurycopro'); ?></p>
-      <?php endif; ?>
+      <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_biens_label', 'Notre Portefeuille')); ?></div>
+      <h2 class="sec-title rv rv-d1"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_title_fallback', 'Exemples de Biens<br><span style="color:var(--gold)">Disponibles</span>')) : wp_kses_post(lc_get_option('lc_biens_title', 'Nos Biens<br><span style="color:var(--gold)">Disponibles</span>')); ?></h2>
+      <p class="sec-sub rv rv-d1" style="margin-bottom:1rem"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_desc_fallback', 'Les biens présentés ci-dessous sont des exemples illustratifs. Pour consulter nos offres réelles et actualisées, veuillez nous contacter directement.')) : wp_kses_post(lc_get_option('lc_biens_desc', 'Découvrez notre sélection de biens immobiliers à Marrakech. Contactez-nous pour plus d\'informations.')); ?></p>
     </div>
     <div class="prop-filters rv rv-d2">
       <button class="active" data-filter="all"><?php esc_html_e('Tout', 'luxurycopro'); ?></button>
@@ -139,6 +159,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
     <?php endforeach; ?>
   </div>
 </section>
+<?php endif; ?>
 
 <!-- SERVICES -->
 <section class="services-row" id="services">

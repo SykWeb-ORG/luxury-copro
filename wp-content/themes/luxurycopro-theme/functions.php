@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '1.1.0');
+define('LC_VERSION', '1.3.0');
 
 /* ── THEME SETUP ── */
 function lc_setup() {
@@ -200,6 +200,42 @@ function lc_customize_register($wp_customize) {
         $wp_customize->add_control("lc_srv{$i}_title", ['label' => "Service {$i} — Titre", 'section' => 'lc_services', 'type' => 'text']);
         $wp_customize->add_setting("lc_srv{$i}_desc", ['default' => $s['desc'], 'sanitize_callback' => 'sanitize_text_field']);
         $wp_customize->add_control("lc_srv{$i}_desc", ['label' => "Service {$i} — Description", 'section' => 'lc_services', 'type' => 'textarea']);
+    }
+    // --- Section: Notre Société ---
+    $wp_customize->add_section('lc_about', [
+        'title' => __('Notre Société', 'luxurycopro'),
+        'panel' => 'lc_panel',
+    ]);
+    $wp_customize->add_setting('lc_about_visible', ['default' => true, 'sanitize_callback' => 'wp_validate_boolean']);
+    $wp_customize->add_control('lc_about_visible', ['label' => 'Afficher la section', 'section' => 'lc_about', 'type' => 'checkbox']);
+    $about_fields = [
+        'lc_about_label' => ['label' => 'Petit label', 'default' => 'Qui Sommes-Nous', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
+        'lc_about_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Notre <span style="color:var(--gold)">Société</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_about_p1'    => ['label' => 'Premier paragraphe', 'default' => 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
+        'lc_about_p2'    => ['label' => 'Deuxième paragraphe', 'default' => 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
+    ];
+    foreach ($about_fields as $id => $f) {
+        $wp_customize->add_setting($id, ['default' => $f['default'], 'sanitize_callback' => $f['sanitize'], 'transport' => 'refresh']);
+        $wp_customize->add_control($id, ['label' => $f['label'], 'section' => 'lc_about', 'type' => $f['type']]);
+    }
+
+    // --- Section: Nos Biens ---
+    $wp_customize->add_section('lc_biens', [
+        'title' => __('Nos Biens', 'luxurycopro'),
+        'panel' => 'lc_panel',
+    ]);
+    $wp_customize->add_setting('lc_biens_visible', ['default' => true, 'sanitize_callback' => 'wp_validate_boolean']);
+    $wp_customize->add_control('lc_biens_visible', ['label' => 'Afficher la section', 'section' => 'lc_biens', 'type' => 'checkbox']);
+    $biens_fields = [
+        'lc_biens_label' => ['label' => 'Petit label', 'default' => 'Notre Portefeuille', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
+        'lc_biens_title' => ['label' => 'Titre (HTML)', 'default' => 'Nos Biens<br><span style="color:var(--gold)">Disponibles</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_biens_title_fallback' => ['label' => 'Titre mode exemples (HTML)', 'default' => 'Exemples de Biens<br><span style="color:var(--gold)">Disponibles</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_biens_desc'  => ['label' => 'Texte d\'introduction', 'default' => 'Découvrez notre sélection de biens immobiliers à Marrakech. Contactez-nous pour plus d\'informations.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
+        'lc_biens_desc_fallback' => ['label' => 'Texte mode exemples', 'default' => 'Les biens présentés ci-dessous sont des exemples illustratifs. Pour consulter nos offres réelles et actualisées, veuillez nous contacter directement.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
+    ];
+    foreach ($biens_fields as $id => $f) {
+        $wp_customize->add_setting($id, ['default' => $f['default'], 'sanitize_callback' => $f['sanitize'], 'transport' => 'refresh']);
+        $wp_customize->add_control($id, ['label' => $f['label'], 'section' => 'lc_biens', 'type' => $f['type']]);
     }
 }
 add_action('customize_register', 'lc_customize_register');
