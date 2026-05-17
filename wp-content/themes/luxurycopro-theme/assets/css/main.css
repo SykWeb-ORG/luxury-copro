@@ -70,12 +70,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
 /* ══════ NAV ══════ */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 5%;backdrop-filter:blur(24px);background:var(--nav-bg);border-bottom:1px solid var(--border);transition:padding .4s,background .5s}
 nav.compact{padding:.9rem 5%;background:var(--nav-bg-solid)}
-.logo{display:flex;align-items:center;text-decoration:none;gap:.6rem}
-.logo img{height:42px;width:auto;transition:filter .5s}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo img{height:70px;width:auto;object-fit:contain;filter:brightness(1.3) contrast(1.1);transition:filter .5s,transform .4s ease,opacity .4s ease}
+.logo:hover img{transform:scale(1.04);opacity:.88}
 .light .logo img{filter:none}
-.logo img{filter:brightness(1.3) contrast(1.1)}
-.logo-text{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold);letter-spacing:2px;line-height:1.1}
-.logo-text small{display:block;font-family:'Inter',sans-serif;font-size:.5rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:1px}
+nav.compact .logo img{height:48px}
 .nav-menu{display:flex;gap:2.2rem;list-style:none;align-items:center}
 .nav-menu a{color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;transition:color .3s;position:relative}
 .nav-menu a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
@@ -284,10 +283,17 @@ section{padding:7rem 5%}
 }
 
 /* ══════ MARQUEE ══════ */
-.marquee{overflow:hidden;padding:2.5rem 0;border-bottom:1px solid var(--border);background:var(--bg)}
-.marquee-track{display:flex;width:max-content;animation:slideMarq 30s linear infinite}
-.marquee-track span{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;white-space:nowrap;padding:0 2.5rem;color:transparent;-webkit-text-stroke:1px var(--marquee-stroke)}
-.marquee-track span.filled{-webkit-text-stroke:none;color:var(--marquee-fill)}
+.marquee{position:relative;overflow:hidden;padding:3.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--surface) 0%,var(--bg) 50%,var(--surface-2) 100%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.marquee::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(41,104,160,.06) 0%,transparent 70%);pointer-events:none}
+.marquee-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Playfair Display',serif;font-size:clamp(4rem,12vw,9rem);font-weight:700;white-space:nowrap;color:var(--text);opacity:.025;pointer-events:none;letter-spacing:.05em;user-select:none}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:slideMarq 35s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.mq-item{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.8rem);font-weight:700;white-space:nowrap;padding:0 1.8rem;color:var(--text);position:relative;transition:color .3s,text-shadow .3s}
+.mq-item::after{content:'';position:absolute;bottom:-.2rem;left:1.8rem;right:1.8rem;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.mq-item:hover{color:var(--gold);text-shadow:0 0 30px rgba(41,104,160,.25)}
+.mq-item:hover::after{transform:scaleX(1)}
+.mq-sep{font-size:1.4rem;color:var(--gold);opacity:.5;padding:0 .5rem;transition:transform .3s,opacity .3s}
+.mq-item:hover+.mq-sep{transform:scale(1.3) rotate(45deg);opacity:1}
 @keyframes slideMarq{to{transform:translateX(-50%)}}
 
 /* ══════ WHY US — 3D STACK ══════ */
@@ -470,9 +476,8 @@ footer{padding:3.5rem 5% 2rem;border-top:1px solid var(--border);background:var(
   .prop-filters{flex-wrap:wrap}
   nav{padding:1rem 4%}
   nav.compact{padding:.8rem 4%}
-  .logo img{height:32px}
-  .logo-text{font-size:.95rem}
-  .logo-text small{font-size:.42rem}
+  .logo img{height:55px}
+  nav.compact .logo img{height:42px}
   .hero h1{font-size:2.4rem}
   .hero-desc{font-size:.92rem}
   .hero-tag{font-size:.6rem;letter-spacing:2px;padding:.4rem 1rem}
@@ -506,7 +511,7 @@ footer{padding:3.5rem 5% 2rem;border-top:1px solid var(--border);background:var(
   .cta-btns{flex-direction:column;align-items:stretch}
   .cta-btns a{text-align:center;justify-content:center}
 
-  .marquee-track span{font-size:2.2rem}
+  .mq-item{font-size:1.8rem}
   footer{flex-direction:column;text-align:center}
 }
 

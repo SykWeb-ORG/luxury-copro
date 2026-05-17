@@ -214,20 +214,21 @@ $is_fallback = $prop_data['source'] === 'fallback';
 </div>
 
 <!-- MARQUEE -->
-<div class="marquee">
+<div class="marquee" id="marqueeSection">
+  <div class="marquee-bg-text">LUXURY COPRO</div>
   <div class="marquee-track">
-    <span><?php esc_html_e('Copropriété', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Location', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Achat & Vente', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Gestion Immobilière', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Travaux', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php echo $city; ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Copropriété', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Location', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Achat & Vente', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Gestion Immobilière', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php esc_html_e('Travaux', 'luxurycopro'); ?></span><span class="filled">·</span>
-    <span><?php echo $city; ?></span><span class="filled">·</span>
+    <span class="mq-item"><?php esc_html_e('Copropriété', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Location', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Achat & Vente', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Gestion Immobilière', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Travaux', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php echo $city; ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Copropriété', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Location', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Achat & Vente', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Gestion Immobilière', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php esc_html_e('Travaux', 'luxurycopro'); ?></span><span class="mq-sep">&loz;</span>
+    <span class="mq-item"><?php echo $city; ?></span><span class="mq-sep">&loz;</span>
   </div>
 </div>
 

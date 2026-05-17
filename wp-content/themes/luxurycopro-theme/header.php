@@ -36,7 +36,6 @@
     <?php else : ?>
       <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png" alt="Luxury Copro">
     <?php endif; ?>
-    <div class="logo-text"><?php echo esc_html(strtoupper(get_bloginfo('name'))); ?><small>Gestion &amp; Immobilier</small></div>
   </a>
   <ul class="nav-menu">
     <li><a href="#presentation"><?php esc_html_e('À Propos', 'luxurycopro'); ?></a></li>

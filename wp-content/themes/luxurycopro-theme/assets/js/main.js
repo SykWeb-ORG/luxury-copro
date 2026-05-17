@@ -105,6 +105,23 @@ document.addEventListener('mousemove', function(e){
   });
 });
 
+// ── MARQUEE GSAP ──
+var marqueeSection = document.getElementById('marqueeSection');
+if (marqueeSection && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from(marqueeSection, {
+    scrollTrigger: { trigger: marqueeSection, start: 'top 85%', once: true },
+    opacity: 0, y: 40, duration: 0.9, ease: 'power2.out'
+  });
+  var bgText = marqueeSection.querySelector('.marquee-bg-text');
+  if (bgText) {
+    gsap.to(bgText, {
+      scrollTrigger: { trigger: marqueeSection, start: 'top bottom', end: 'bottom top', scrub: true },
+      x: 80, ease: 'none'
+    });
+  }
+}
+
 // ── FILTER BUTTONS ──
 document.querySelectorAll('.prop-filters button').forEach(function(btn){
   btn.addEventListener('click', function(){

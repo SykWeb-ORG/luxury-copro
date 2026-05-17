@@ -27,7 +27,9 @@ function lc_enqueue_assets() {
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap', [], null);
     wp_enqueue_style('lc-main', get_template_directory_uri() . '/assets/css/main.css', ['google-fonts'], LC_VERSION);
 
-    wp_enqueue_script('lc-main', get_template_directory_uri() . '/assets/js/main.js', [], LC_VERSION, true);
+    wp_enqueue_script('gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', [], null, true);
+    wp_enqueue_script('gsap-st', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', ['gsap'], null, true);
+    wp_enqueue_script('lc-main', get_template_directory_uri() . '/assets/js/main.js', ['gsap', 'gsap-st'], LC_VERSION, true);
 
     $whatsapp = lc_get_option('lc_whatsapp', '212700727165');
     $email    = lc_get_option('lc_email', 'ezzine.surgar@gmail.com');
