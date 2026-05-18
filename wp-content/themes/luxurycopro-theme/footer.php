@@ -84,6 +84,11 @@ if (has_custom_logo()) {
   <div class="foot-bottom">
     <p>&copy; <?php echo esc_html(date('Y')); ?> <?php echo esc_html(strtoupper(get_bloginfo('name'))); ?> — EZZINE SURGAR S.A.R.L. <?php esc_html_e('Tous droits réservés.', 'luxurycopro'); ?></p>
     <div class="foot-legal">RC: <?php echo $rc; ?> · TP: <?php echo $tp; ?> · IF: <?php echo $if; ?> · CNSS: <?php echo $cnss; ?> · ICE: <?php echo $ice; ?></div>
+    <div class="foot-legal-links">
+      <a href="<?php echo esc_url(home_url('/politique-de-confidentialite/')); ?>"><?php esc_html_e('Politique de Confidentialité', 'luxurycopro'); ?></a>
+      <span class="foot-legal-sep">|</span>
+      <a href="<?php echo esc_url(home_url('/mentions-legales/')); ?>"><?php esc_html_e('Mentions Légales', 'luxurycopro'); ?></a>
+    </div>
   </div>
 </footer>
 

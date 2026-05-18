@@ -52,7 +52,11 @@ $is_fallback = $prop_data['source'] === 'fallback';
     <h1><?php echo $hero_title; ?></h1>
     <p class="hero-desc"><?php echo $hero_desc; ?></p>
     <div class="hero-actions">
-      <a href="#biens" class="btn-gold"><?php echo $hero_btn1; ?></a>
+      <?php if (lc_get_option('lc_biens_visible', false)) : ?>
+        <a href="#biens" class="btn-gold"><?php echo $hero_btn1; ?></a>
+      <?php else : ?>
+        <a href="#contact" class="btn-gold"><?php esc_html_e('Nous Contacter', 'luxurycopro'); ?></a>
+      <?php endif; ?>
       <a href="#services" class="btn-ghost"><?php echo $hero_btn2; ?></a>
     </div>
     <div class="hero-stats">
@@ -71,31 +75,29 @@ $is_fallback = $prop_data['source'] === 'fallback';
     </div>
   </div>
 
+  <?php
+    $hero_refs = lc_get_references();
+    shuffle($hero_refs);
+    $hero_refs = array_slice($hero_refs, 0, 3);
+    if (!empty($hero_refs)) :
+  ?>
   <div class="hero-showcase">
-    <?php
-    $hero_pool = $properties;
-    shuffle($hero_pool);
-    $hero_cards = array_slice($hero_pool, 0, 3);
-    foreach ($hero_cards as $ci => $hc) :
+    <?php foreach ($hero_refs as $ci => $hr) :
       $fc_class = 'fc-' . ($ci + 1);
-      $thumb = !empty($hc['has_thumb']) && !empty($hc['thumb_url']) ? $hc['thumb_url'] : '';
+      $num = str_pad($ci + 1, 2, '0', STR_PAD_LEFT);
+      $img = ($hr['has_thumb'] && $hr['thumb_url']) ? $hr['thumb_url'] : get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
     ?>
     <div class="float-card <?php echo $fc_class; ?>">
-      <?php if ($thumb) : ?>
-        <div class="fc-img" style="background-image:url('<?php echo esc_url($thumb); ?>')"></div>
-      <?php else : ?>
-        <div class="fc-img fc-img-placeholder">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
-      <?php endif; ?>
+      <div class="fc-img" style="background-image:url('<?php echo esc_url($img); ?>')"></div>
       <div class="fc-body">
-        <div class="fc-price"><?php echo esc_html($hc['price']); ?></div>
-        <div class="fc-loc"><?php echo esc_html($hc['badge']); ?> · <?php echo esc_html($hc['location']); ?></div>
+        <div class="fc-price"><?php echo esc_html($hr['name']); ?></div>
+        <div class="fc-loc"><?php echo esc_html($hr['service']); ?> · <?php echo esc_html($hr['location']); ?></div>
       </div>
       <div class="fc-shine"></div>
     </div>
     <?php endforeach; ?>
   </div>
+  <?php endif; ?>
 
   <div class="hero-scroll">
     <span>Scroll</span>
@@ -107,7 +109,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- ABOUT INTRO -->
 <section class="about-intro" id="presentation">
   <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_about_label', 'Qui Sommes-Nous')); ?></div>
-  <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_about_title', 'Notre <span style="color:var(--gold)">Société</span>')); ?></h2>
+  <h2 class="sec-title about-3d-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_about_title', 'Notre <span style="color:var(--gold)">Société</span>')); ?></h2>
   <div class="about-inner">
     <p class="rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_about_p1', 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.')); ?></p>
     <p class="rv rv-d3"><?php echo wp_kses_post(lc_get_option('lc_about_p2', 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.')); ?></p>
@@ -123,35 +125,31 @@ $is_fallback = $prop_data['source'] === 'fallback';
   <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_refs_label', 'Références')); ?></div>
   <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_refs_title', 'Ils nous font <span style="color:var(--gold)">confiance</span>')); ?></h2>
   <p class="sec-sub rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_refs_intro', 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.')); ?></p>
-  <div class="refs-grid">
+  <div class="refs-bento">
     <?php foreach ($refs as $ri => $ref) :
-      $delay = $ri > 0 ? ' rv-d' . min($ri, 4) : '';
+      $sizes = [0=>'lg',1=>'md',2=>'md',3=>'sm',4=>'sm',5=>'lg',6=>'sm',7=>'md',8=>'lg',9=>'sm',10=>'md',11=>'sm',12=>'md',13=>'sm'];
+      $size = isset($sizes[$ri]) ? $sizes[$ri] : 'md';
+      $num = str_pad($ri + 1, 2, '0', STR_PAD_LEFT);
+      $img = get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
+      if ($ref['has_thumb'] && $ref['thumb_url']) {
+        $img = $ref['thumb_url'];
+      }
     ?>
-    <div class="ref-card rv<?php echo esc_attr($delay); ?>">
-      <div class="ref-visual">
-        <?php if ($ref['has_thumb'] && $ref['thumb_url']) : ?>
-          <img src="<?php echo esc_url($ref['thumb_url']); ?>" alt="<?php echo esc_attr($ref['name']); ?>">
-        <?php else : ?>
-          <div class="ref-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity=".25"><path d="M3 21h18M3 7v14m6-14v14m6-14v14m6-14v14M3 7l9-4 9 4"/></svg></div>
-        <?php endif; ?>
+    <div class="rb-card rb-<?php echo $size; ?> rv">
+      <div class="rb-img" style="background-image:url('<?php echo esc_url($img); ?>')"></div>
+      <div class="rb-overlay"></div>
+      <div class="rb-content">
+        <span class="rb-label">Résidence</span>
+        <h3 class="rb-name"><?php echo esc_html(str_replace('Résidence ','',$ref['name'])); ?></h3>
       </div>
-      <div class="ref-body">
-        <h3 class="ref-name"><?php echo esc_html($ref['name']); ?></h3>
-        <span class="ref-service"><?php echo esc_html($ref['service']); ?></span>
-        <?php if ($ref['location']) : ?>
-          <span class="ref-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="var(--surface)"/></svg> <?php echo esc_html($ref['location']); ?></span>
-        <?php endif; ?>
-        <?php if ($ref['desc']) : ?>
-          <p class="ref-desc"><?php echo esc_html($ref['desc']); ?></p>
-        <?php endif; ?>
-      </div>
+      <span class="rb-num"><?php echo $num; ?></span>
     </div>
     <?php endforeach; ?>
   </div>
 </section>
 <?php endif; endif; ?>
 
-<?php if (lc_get_option('lc_biens_visible', true)) : ?>
+<?php if (lc_get_option('lc_biens_visible', false)) : ?>
 <!-- PROPERTIES -->
 <section class="properties" id="biens">
   <div class="prop-header">
@@ -160,11 +158,11 @@ $is_fallback = $prop_data['source'] === 'fallback';
       <h2 class="sec-title rv rv-d1"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_title_fallback', 'Exemples de Biens<br><span style="color:var(--gold)">Disponibles</span>')) : wp_kses_post(lc_get_option('lc_biens_title', 'Nos Biens<br><span style="color:var(--gold)">Disponibles</span>')); ?></h2>
       <p class="sec-sub rv rv-d1" style="margin-bottom:1rem"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_desc_fallback', 'Les biens présentés ci-dessous sont des exemples illustratifs. Pour consulter nos offres réelles et actualisées, veuillez nous contacter directement.')) : wp_kses_post(lc_get_option('lc_biens_desc', 'Découvrez notre sélection de biens immobiliers à Marrakech. Contactez-nous pour plus d\'informations.')); ?></p>
     </div>
-    <div class="prop-filters rv rv-d2">
-      <button class="active" data-filter="all"><?php esc_html_e('Tout', 'luxurycopro'); ?></button>
-      <button data-filter="Vente"><?php esc_html_e('Vente', 'luxurycopro'); ?></button>
-      <button data-filter="Location"><?php esc_html_e('Location', 'luxurycopro'); ?></button>
-      <button data-filter="Exclusif"><?php esc_html_e('Exclusif', 'luxurycopro'); ?></button>
+    <div class="prop-filters rv rv-d2" role="group" aria-label="Filtrer les biens">
+      <button class="active" data-filter="all" aria-label="Afficher tous les biens"><?php esc_html_e('Tout', 'luxurycopro'); ?></button>
+      <button data-filter="Vente" aria-label="Afficher les biens en vente"><?php esc_html_e('Vente', 'luxurycopro'); ?></button>
+      <button data-filter="Location" aria-label="Afficher les biens en location"><?php esc_html_e('Location', 'luxurycopro'); ?></button>
+      <button data-filter="Exclusif" aria-label="Afficher les biens exclusifs"><?php esc_html_e('Exclusif', 'luxurycopro'); ?></button>
     </div>
   </div>
   <div class="prop-grid">
@@ -173,7 +171,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
     ?>
     <div class="prop-card tilt rv<?php echo esc_attr($delay_class); ?>" data-type="<?php echo esc_attr($p['badge']); ?>">
       <?php if (!empty($p['has_thumb']) && !empty($p['thumb_url'])) : ?>
-        <div class="p-img" style="background:url('<?php echo esc_url($p['thumb_url']); ?>') center/cover">
+        <div class="p-img lazy-bg" data-bg="url('<?php echo esc_url($p['thumb_url']); ?>')" style="background:var(--surface-2)">
           <span class="p-badge <?php echo esc_attr($p['badge_class']); ?>"><?php echo esc_html($p['badge']); ?></span>
         </div>
       <?php else : ?>

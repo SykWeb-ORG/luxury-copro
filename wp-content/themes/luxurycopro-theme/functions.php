@@ -352,7 +352,7 @@ add_action('add_meta_boxes', 'lc_reference_meta_boxes');
 function lc_reference_meta_html($post) {
     wp_nonce_field('lc_reference_meta', 'lc_reference_nonce');
     $fields = [
-        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Gestion de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
+        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Copropriété', 'Gestion de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
         'ref_location' => ['label' => 'Localisation', 'type' => 'text'],
         'ref_desc'     => ['label' => 'Description courte', 'type' => 'textarea'],
         'ref_order'    => ['label' => 'Ordre d\'affichage (nombre)', 'type' => 'text'],
@@ -422,6 +422,35 @@ function lc_get_references() {
     wp_reset_postdata();
     return $refs;
 }
+
+/* ── SEO: JSON-LD STRUCTURED DATA ── */
+function lc_jsonld_structured_data() {
+    $name    = 'Luxury Copro';
+    $phone   = lc_get_option('lc_phone1', '07 00 72 71 65');
+    $email   = lc_get_option('lc_email', 'ezzine.surgar@gmail.com');
+    $addr1   = lc_get_option('lc_address_1', 'Mg Rdc Imm A, Résidence Amira');
+    $addr2   = lc_get_option('lc_address_2', 'Avenue 4ème DMM, Camp El Ghoul');
+    $city    = lc_get_option('lc_city', 'Marrakech');
+
+    $schema = [
+        '@context'     => 'https://schema.org',
+        '@type'        => 'RealEstateAgent',
+        'name'         => $name,
+        'telephone'    => $phone,
+        'email'        => $email,
+        'address'      => [
+            '@type'           => 'PostalAddress',
+            'streetAddress'   => $addr1 . ', ' . $addr2,
+            'addressLocality' => $city,
+            'addressCountry'  => 'MA',
+        ],
+        'openingHours' => 'Mo-Sa 09:00-19:00',
+        'url'          => home_url('/'),
+    ];
+
+    echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
+}
+add_action('wp_head', 'lc_jsonld_structured_data');
 
 /* ── FLUSH REWRITE ON ACTIVATION ── */
 function lc_activate() {
