@@ -38,7 +38,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- HERO -->
 <section class="hero" id="accueil">
   <div class="hero-video">
-    <video autoplay muted loop playsinline preload="auto" poster="">
+    <video autoplay muted loop playsinline preload="metadata">
       <source src="<?php echo esc_url(get_template_directory_uri() . '/assets/video/hero-web.mp4'); ?>" type="video/mp4">
     </video>
   </div>
@@ -136,7 +136,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
       }
     ?>
     <div class="rb-card rb-<?php echo $size; ?> rv">
-      <div class="rb-img" style="background-image:url('<?php echo esc_url($img); ?>')"></div>
+      <div class="rb-img lazy-bg" data-bg="url('<?php echo esc_url($img); ?>')" style="background-color:var(--surface-2)"></div>
       <div class="rb-overlay"></div>
       <div class="rb-content">
         <span class="rb-label">Résidence</span>
@@ -204,10 +204,10 @@ $is_fallback = $prop_data['source'] === 'fallback';
   <div class="srv-grid">
     <?php
     $srv_icons = [
-        1 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M3 7v14m6-14v14m6-14v14m6-14v14M3 7l9-4 9 4M6 11h.01M6 15h.01M12 11h.01M12 15h.01M18 11h.01M18 15h.01"/></svg>',
-        2 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>',
-        3 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
-        4 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+        1 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 21h18M3 7v14m6-14v14m6-14v14m6-14v14M3 7l9-4 9 4M6 11h.01M6 15h.01M12 11h.01M12 15h.01M18 11h.01M18 15h.01"/></svg>',
+        2 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>',
+        3 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        4 => '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
     ];
     for ($i = 1; $i <= 4; $i++) :
       $delay = $i > 1 ? ' rv-d' . ($i - 1) : '';
@@ -296,27 +296,27 @@ $is_fallback = $prop_data['source'] === 'fallback';
 
   <div class="engage-grid">
     <div class="engage-card rv">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
       <h4><?php esc_html_e('Transparence', 'luxurycopro'); ?></h4>
       <p><?php esc_html_e('Professionnalisme et clarté dans toutes nos démarches et nos rapports.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d1">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
       <h4><?php esc_html_e('Qualité de Service', 'luxurycopro'); ?></h4>
       <p><?php esc_html_e('Des prestations rigoureuses et adaptées aux plus hautes exigences.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d2">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
       <h4><?php esc_html_e('Réactivité & Proximité', 'luxurycopro'); ?></h4>
       <p><?php esc_html_e('Une écoute attentive et des réponses rapides à chacune de vos demandes.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d3">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       <h4><?php esc_html_e('Respect des Délais', 'luxurycopro'); ?></h4>
       <p><?php esc_html_e('Respect des engagements pris et des échéances convenues avec nos clients.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d4">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
       <h4><?php esc_html_e('Patrimoine Préservé', 'luxurycopro'); ?></h4>
       <p><?php esc_html_e('Préservation et valorisation durable de votre patrimoine immobilier.', 'luxurycopro'); ?></p>
     </div>
@@ -388,7 +388,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
     <?php if ($maps) : ?>
     <div class="ct-loc-map">
       <a href="https://www.google.com/maps/search/R%C3%A9sidence+Amira+Avenue+4%C3%A8me+DMM+Camp+El+Ghoul+Marrakech" target="_blank" rel="noopener" class="c-map-link">Open in Maps <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
-      <iframe src="<?php echo esc_url($maps); ?>" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe data-src="<?php echo esc_url($maps); ?>" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" title="<?php esc_attr_e('Localisation Luxury Copro sur Google Maps', 'luxurycopro'); ?>"></iframe>
     </div>
     <?php endif; ?>
   </div>
@@ -400,12 +400,12 @@ $is_fallback = $prop_data['source'] === 'fallback';
     </div>
     <form class="c-form" id="contactForm" aria-label="<?php esc_attr_e('Formulaire de contact', 'luxurycopro'); ?>">
       <div class="c-row">
-        <div class="c-group"><label><?php esc_html_e('Nom Complet', 'luxurycopro'); ?></label><input type="text" id="cfName" placeholder="<?php esc_attr_e('Votre nom', 'luxurycopro'); ?>" required></div>
-        <div class="c-group"><label><?php esc_html_e('Téléphone', 'luxurycopro'); ?></label><input type="tel" id="cfPhone" placeholder="06 00 00 00 00" required></div>
+        <div class="c-group"><label for="cfName"><?php esc_html_e('Nom Complet', 'luxurycopro'); ?></label><input type="text" id="cfName" placeholder="<?php esc_attr_e('Votre nom', 'luxurycopro'); ?>" required><span class="field-error"><?php esc_html_e('Veuillez entrer votre nom', 'luxurycopro'); ?></span></div>
+        <div class="c-group"><label for="cfPhone"><?php esc_html_e('Téléphone', 'luxurycopro'); ?></label><input type="tel" id="cfPhone" placeholder="06 00 00 00 00" required><span class="field-error"><?php esc_html_e('Veuillez entrer un numéro valide', 'luxurycopro'); ?></span></div>
       </div>
       <div class="c-row">
         <div class="c-group">
-          <label><?php esc_html_e('Type de Projet', 'luxurycopro'); ?></label>
+          <label for="cfType"><?php esc_html_e('Type de Projet', 'luxurycopro'); ?></label>
           <select id="cfType">
             <option><?php esc_html_e('Gestion de copropriété', 'luxurycopro'); ?></option>
             <option><?php esc_html_e('Je veux acheter', 'luxurycopro'); ?></option>
@@ -415,7 +415,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
           </select>
         </div>
         <div class="c-group">
-          <label><?php esc_html_e('Budget', 'luxurycopro'); ?></label>
+          <label for="cfBudget"><?php esc_html_e('Budget', 'luxurycopro'); ?></label>
           <select id="cfBudget">
             <option><?php esc_html_e('Moins de 500 000 MAD', 'luxurycopro'); ?></option>
             <option>500 000 — 1 000 000 MAD</option>
@@ -424,7 +424,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
           </select>
         </div>
       </div>
-      <div class="c-group"><label><?php esc_html_e('Message', 'luxurycopro'); ?></label><textarea id="cfMsg" placeholder="<?php esc_attr_e('Décrivez votre projet immobilier...', 'luxurycopro'); ?>"></textarea></div>
+      <div class="c-group"><label for="cfMsg"><?php esc_html_e('Message', 'luxurycopro'); ?></label><textarea id="cfMsg" placeholder="<?php esc_attr_e('Décrivez votre projet immobilier...', 'luxurycopro'); ?>"></textarea></div>
       <div class="c-form-actions">
         <button type="submit" class="btn-wa" style="border:none;font-family:'Inter',sans-serif">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>

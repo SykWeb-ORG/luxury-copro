@@ -19,6 +19,11 @@ if (has_custom_logo()) {
 }
 ?>
 
+<!-- BACK TO TOP -->
+<button class="btt" id="backToTop" aria-label="<?php esc_attr_e('Retour en haut', 'luxurycopro'); ?>">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
 <!-- WHATSAPP WIDGET -->
 <div class="wa-widget" id="waWidget">
   <div class="wa-popup">
@@ -53,7 +58,7 @@ if (has_custom_logo()) {
   <div class="foot-top">
     <div class="foot-brand">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="foot-logo">
-        <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+        <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" width="106" height="38">
         <span><?php echo esc_html(strtoupper(get_bloginfo('name'))); ?></span>
       </a>
       <p><?php esc_html_e('Gestion de Copropriété — Travaux Techniques Divers — Intérim — Immobilier. Votre partenaire de confiance à', 'luxurycopro'); ?> <?php echo $city; ?>.</p>

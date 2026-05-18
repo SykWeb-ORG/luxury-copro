@@ -10,9 +10,12 @@
   <meta property="og:locale" content="fr_MA">
   <meta property="og:url" content="<?php echo esc_url(get_permalink()); ?>">
   <meta property="og:image" content="<?php echo esc_url(get_template_directory_uri() . '/assets/img/logo.png'); ?>">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
   <meta name="twitter:description" content="<?php echo esc_attr(get_bloginfo('description')); ?>">
+  <meta name="twitter:image" content="<?php echo esc_url(get_template_directory_uri() . '/assets/img/logo.png'); ?>">
   <link rel="canonical" href="<?php echo esc_url(function_exists('wp_get_canonical_url') ? (wp_get_canonical_url() ?: get_permalink()) : get_permalink()); ?>">
   <link rel="icon" type="image/png" href="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png">
   <link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png">
@@ -45,9 +48,9 @@
       $logo_id  = get_theme_mod('custom_logo');
       $logo_url = wp_get_attachment_image_url($logo_id, 'full');
     ?>
-      <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+      <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" width="140" height="50">
     <?php else : ?>
-      <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png" alt="Luxury Copro">
+      <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png" alt="Luxury Copro" width="140" height="50">
     <?php endif; ?>
   </a>
   <ul class="nav-menu">

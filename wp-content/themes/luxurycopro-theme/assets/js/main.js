@@ -43,14 +43,14 @@ if (loaderLogo) {
   brand.split('').forEach(function(c, i){
     var s = document.createElement('span');
     s.textContent = c === ' ' ? ' ' : c;
-    s.style.animationDelay = i * 0.055 + 's';
+    s.style.animationDelay = i * 0.04 + 's';
     loaderLogo.appendChild(s);
   });
   window.addEventListener('load', function(){
     setTimeout(function(){
       var loader = document.getElementById('loader');
       if (loader) loader.classList.add('done');
-    }, 2200);
+    }, 1200);
   });
 }
 
@@ -90,14 +90,15 @@ if (nav) {
 }
 
 // ── GSAP SCROLL ANIMATIONS ──
-if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
   gsap.registerPlugin(ScrollTrigger);
   var isMobile = window.innerWidth <= 768;
 
   // ── Nav entrance ──
   var navEl = document.getElementById('nav');
   if (navEl) {
-    gsap.fromTo(navEl, { y: -80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, delay: 2.4, ease: 'power3.out' });
+    gsap.fromTo(navEl, { y: -80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, delay: 1.4, ease: 'power3.out' });
   }
 
   // ── Hero parallax layers (desktop only) ──
@@ -153,7 +154,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   }
 
   // ── References — cards with 3D flip entrance ──
-  var refsGrid = document.querySelector('.refs-grid');
+  var refsGrid = document.querySelector('.refs-bento');
   var refsSection = document.querySelector('.refs');
   if (refsSection) {
     gsap.fromTo(refsSection.querySelector('.sec-label'), { opacity: 0, scale: 0.5, rotateZ: -5 }, { scrollTrigger: { trigger: refsSection, start: 'top 85%', once: true }, opacity: 1, scale: 1, rotateZ: 0, duration: 0.6, ease: 'back.out(2)' });
@@ -162,12 +163,12 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     if (refsSub) gsap.fromTo(refsSub, { opacity: 0, y: 20 }, { scrollTrigger: { trigger: refsSection, start: 'top 85%', once: true }, opacity: 1, y: 0, duration: 0.7, delay: 0.25, ease: 'power2.out' });
   }
   if (refsGrid) {
-    var refCards = refsGrid.querySelectorAll('.ref-card');
+    var refCards = refsGrid.querySelectorAll('.rb-card');
     refCards.forEach(function(card, i){
       if (isMobile) {
         gsap.fromTo(card, { opacity: 0, y: 40, scale: 0.92 }, { scrollTrigger: { trigger: card, start: 'top 90%', once: true }, opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power2.out' });
       } else {
-        gsap.fromTo(card, { opacity: 0, y: 100, rotateX: 15, rotateY: i % 2 === 0 ? -8 : 8, scale: 0.8, transformPerspective: 1200 }, { scrollTrigger: { trigger: refsGrid, start: 'top 82%', once: true }, opacity: 1, y: 0, rotateX: 0, rotateY: 0, scale: 1, duration: 1, delay: i * 0.2, ease: 'power3.out' });
+        gsap.fromTo(card, { opacity: 0, y: 100, rotateX: 15, rotateY: i % 2 === 0 ? -8 : 8, scale: 0.8, transformPerspective: 1200 }, { scrollTrigger: { trigger: refsGrid, start: 'top 82%', once: true }, opacity: 1, y: 0, rotateX: 0, rotateY: 0, scale: 1, duration: 1, delay: i * 0.12, ease: 'power3.out' });
       }
     });
   }
@@ -344,7 +345,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     el.textContent = '0' + suffix;
     var obj = { val: 0 };
     gsap.to(obj, {
-      val: num, duration: 2, delay: 1.2, ease: 'power1.out',
+      val: num, duration: 2, delay: 0.5, ease: 'power1.out',
       onUpdate: function(){ el.textContent = Math.round(obj.val) + suffix; }
     });
   });
@@ -498,6 +499,65 @@ if (overlay) {
   });
 }
 
+// ── BACK TO TOP ──
+var backToTop = document.getElementById('backToTop');
+if (backToTop) {
+  window.addEventListener('scroll', function(){
+    backToTop.classList.toggle('visible', window.scrollY > 500);
+  });
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ── LAZY MAP ──
+var mapIframe = document.querySelector('.ct-loc-map iframe[data-src]');
+if (mapIframe && 'IntersectionObserver' in window) {
+  var mapObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        e.target.src = e.target.dataset.src;
+        mapObs.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '300px' });
+  mapObs.observe(mapIframe);
+}
+
+// ── TOAST NOTIFICATION ──
+function showToast(message, type) {
+  var existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  var toast = document.createElement('div');
+  toast.className = 'toast' + (type === 'email' ? ' toast-email' : '');
+  toast.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>' + message;
+  document.body.appendChild(toast);
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ toast.classList.add('show'); });
+  });
+  setTimeout(function(){ toast.classList.remove('show'); setTimeout(function(){ toast.remove(); }, 400); }, 3500);
+}
+
+// ── FORM VALIDATION ──
+function validateField(field) {
+  if (!field) return true;
+  var valid = true;
+  if (field.hasAttribute('required') && !field.value.trim()) valid = false;
+  if (field.type === 'tel' && field.value.trim() && !/^[\d\s\+\-\.()]{6,}$/.test(field.value.trim())) valid = false;
+  field.classList.toggle('invalid', !valid);
+  return valid;
+}
+var cfName = document.getElementById('cfName');
+var cfPhone = document.getElementById('cfPhone');
+if (cfName) {
+  cfName.addEventListener('blur', function(){ validateField(cfName); });
+  cfName.addEventListener('input', function(){ if (cfName.value.trim()) cfName.classList.remove('invalid'); });
+}
+if (cfPhone) {
+  cfPhone.addEventListener('blur', function(){ validateField(cfPhone); });
+  cfPhone.addEventListener('input', function(){ if (cfPhone.value.trim()) cfPhone.classList.remove('invalid'); });
+}
+
 // ── CONTACT FORM ──
 function getFormData(){
   return {
@@ -511,28 +571,22 @@ function getFormData(){
 function formatMsg(d){
   return 'Bonjour Luxury Copro,\n\nNom: ' + d.name + '\nTéléphone: ' + d.phone + '\nProjet: ' + d.type + '\nBudget: ' + d.budget + (d.msg ? '\nMessage: ' + d.msg : '');
 }
-function showSuccess(btn, original){
-  btn.textContent = '✓ Message envoyé !';
-  btn.style.background = '#25D366';
-  btn.style.color = 'white';
-  btn.style.borderColor = '#25D366';
-  setTimeout(function(){
-    btn.textContent = original;
-    btn.style.background = '';
-    btn.style.color = '';
-    btn.style.borderColor = '';
-  }, 3000);
-}
 
 var contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', function(e){
     e.preventDefault();
+    var nameOk = validateField(document.getElementById('cfName'));
+    var phoneOk = validateField(document.getElementById('cfPhone'));
+    if (!nameOk || !phoneOk) {
+      contactForm.classList.add('shake');
+      setTimeout(function(){ contactForm.classList.remove('shake'); }, 500);
+      return;
+    }
     var d = getFormData();
-    if (!d.name || !d.phone) return;
     var text = encodeURIComponent(formatMsg(d));
     window.open('https://wa.me/' + waNum + '?text=' + text, '_blank');
-    showSuccess(e.target.querySelector('[type="submit"]'), 'Envoyer via WhatsApp');
+    showToast('Message envoyé via WhatsApp !');
     e.target.reset();
   });
 }
@@ -540,15 +594,18 @@ if (contactForm) {
 var emailBtn = document.getElementById('cfEmailBtn');
 if (emailBtn) {
   emailBtn.addEventListener('click', function(){
-    var d = getFormData();
-    if (!d.name || !d.phone) {
-      document.getElementById('cfName').reportValidity();
+    var nameOk = validateField(document.getElementById('cfName'));
+    var phoneOk = validateField(document.getElementById('cfPhone'));
+    if (!nameOk || !phoneOk) {
+      contactForm.classList.add('shake');
+      setTimeout(function(){ contactForm.classList.remove('shake'); }, 500);
       return;
     }
+    var d = getFormData();
     var subject = encodeURIComponent('Nouveau contact — ' + d.type + ' — ' + d.name);
     var body = encodeURIComponent(formatMsg(d));
     window.location.href = 'mailto:' + emailAddr + '?subject=' + subject + '&body=' + body;
-    showSuccess(emailBtn, 'Envoyer par E-mail');
+    showToast('Message préparé par e-mail !', 'email');
     contactForm.reset();
   });
 }

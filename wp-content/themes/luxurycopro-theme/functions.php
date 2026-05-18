@@ -22,6 +22,14 @@ function lc_setup() {
 }
 add_action('after_setup_theme', 'lc_setup');
 
+/* ── PRECONNECT HINTS ── */
+function lc_preconnect_hints() {
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+    echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>' . "\n";
+}
+add_action('wp_head', 'lc_preconnect_hints', 1);
+
 /* ── ENQUEUE ASSETS ── */
 function lc_enqueue_assets() {
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap', [], null);
@@ -39,6 +47,14 @@ function lc_enqueue_assets() {
     ]);
 }
 add_action('wp_enqueue_scripts', 'lc_enqueue_assets');
+
+function lc_defer_google_fonts($tag, $handle) {
+    if ($handle === 'google-fonts') {
+        return str_replace("media='all'", "media='print' onload=\"this.media='all'\"", $tag);
+    }
+    return $tag;
+}
+add_filter('style_loader_tag', 'lc_defer_google_fonts', 10, 2);
 
 /* ── CPT: PROPERTIES ── */
 function lc_register_properties_cpt() {
@@ -432,20 +448,47 @@ function lc_jsonld_structured_data() {
     $addr2   = lc_get_option('lc_address_2', 'Avenue 4ème DMM, Camp El Ghoul');
     $city    = lc_get_option('lc_city', 'Marrakech');
 
+    $logo_url = get_template_directory_uri() . '/assets/img/logo.png';
+
     $schema = [
         '@context'     => 'https://schema.org',
-        '@type'        => 'RealEstateAgent',
+        '@type'        => ['RealEstateAgent', 'LocalBusiness'],
         'name'         => $name,
+        'legalName'    => 'EZZINE SURGAR S.A.R.L.',
         'telephone'    => $phone,
         'email'        => $email,
+        'logo'         => $logo_url,
+        'image'        => $logo_url,
         'address'      => [
             '@type'           => 'PostalAddress',
             'streetAddress'   => $addr1 . ', ' . $addr2,
             'addressLocality' => $city,
             'addressCountry'  => 'MA',
         ],
-        'openingHours' => 'Mo-Sa 09:00-19:00',
+        'geo'          => [
+            '@type'     => 'GeoCoordinates',
+            'latitude'  => 31.6305,
+            'longitude' => -8.0135,
+        ],
+        'openingHoursSpecification' => [
+            '@type'     => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            'opens'     => '09:00',
+            'closes'    => '19:00',
+        ],
+        'priceRange'   => '$$',
+        'areaServed'   => $city,
         'url'          => home_url('/'),
+        'hasOfferCatalog' => [
+            '@type' => 'OfferCatalog',
+            'name'  => 'Services immobiliers',
+            'itemListElement' => [
+                ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Gestion de Copropriété']],
+                ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Location']],
+                ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Achat & Vente']],
+                ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Travaux & Maintenance']],
+            ],
+        ],
     ];
 
     echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
