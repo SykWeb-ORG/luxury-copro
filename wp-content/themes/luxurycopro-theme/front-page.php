@@ -38,8 +38,8 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- HERO -->
 <section class="hero" id="accueil">
   <div class="hero-video">
-    <video autoplay muted loop playsinline preload="metadata">
-      <source src="<?php echo esc_url(get_template_directory_uri() . '/assets/video/hero-web.mp4'); ?>" type="video/mp4">
+    <video autoplay muted loop playsinline preload="auto" fetchpriority="high">
+      <source src="<?php echo esc_url(get_template_directory_uri() . '/assets/video/hero-web.mp4'); ?>" type="video/mp4" media="(min-width:769px)">
     </video>
   </div>
   <div class="hero-parallax-bg"></div>
@@ -122,29 +122,40 @@ $is_fallback = $prop_data['source'] === 'fallback';
   if (!empty($refs)) : ?>
 <!-- REFERENCES -->
 <section class="refs" id="references">
-  <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_refs_label', 'Références')); ?></div>
-  <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_refs_title', 'Ils nous font <span style="color:var(--gold)">confiance</span>')); ?></h2>
-  <p class="sec-sub rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_refs_intro', 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.')); ?></p>
-  <div class="refs-bento">
-    <?php foreach ($refs as $ri => $ref) :
-      $sizes = [0=>'lg',1=>'md',2=>'md',3=>'sm',4=>'sm',5=>'lg',6=>'sm',7=>'md',8=>'lg',9=>'sm',10=>'md',11=>'sm',12=>'md',13=>'sm'];
-      $size = isset($sizes[$ri]) ? $sizes[$ri] : 'md';
-      $num = str_pad($ri + 1, 2, '0', STR_PAD_LEFT);
-      $img = get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
-      if ($ref['has_thumb'] && $ref['thumb_url']) {
-        $img = $ref['thumb_url'];
-      }
-    ?>
-    <div class="rb-card rb-<?php echo $size; ?> rv">
-      <div class="rb-img lazy-bg" data-bg="url('<?php echo esc_url($img); ?>')" style="background-color:var(--surface-2)"></div>
-      <div class="rb-overlay"></div>
-      <div class="rb-content">
-        <span class="rb-label">Résidence</span>
-        <h3 class="rb-name"><?php echo esc_html(str_replace('Résidence ','',$ref['name'])); ?></h3>
-      </div>
-      <span class="rb-num"><?php echo $num; ?></span>
+  <div class="refs-header">
+    <div class="refs-header-left">
+      <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_refs_label', 'Références')); ?></div>
+      <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_refs_title', 'Ils nous font <span style="color:var(--gold)">confiance</span>')); ?></h2>
     </div>
-    <?php endforeach; ?>
+    <p class="refs-header-desc rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_refs_intro', 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.')); ?></p>
+  </div>
+  <div class="refs-carousel">
+    <div class="refs-track">
+      <?php foreach ($refs as $ri => $ref) :
+        $num = str_pad($ri + 1, 2, '0', STR_PAD_LEFT);
+        $img = get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
+        if ($ref['has_thumb'] && $ref['thumb_url']) {
+          $img = $ref['thumb_url'];
+        }
+      ?>
+      <div class="ref-logo-item">
+        <div class="ref-logo-img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($ref['name']); ?>" loading="lazy"></div>
+        <span class="ref-logo-name"><?php echo esc_html($ref['name']); ?></span>
+      </div>
+      <?php endforeach; ?>
+      <?php foreach ($refs as $ri => $ref) :
+        $num = str_pad($ri + 1, 2, '0', STR_PAD_LEFT);
+        $img = get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
+        if ($ref['has_thumb'] && $ref['thumb_url']) {
+          $img = $ref['thumb_url'];
+        }
+      ?>
+      <div class="ref-logo-item" aria-hidden="true">
+        <div class="ref-logo-img"><img src="<?php echo esc_url($img); ?>" alt="" loading="lazy"></div>
+        <span class="ref-logo-name"><?php echo esc_html($ref['name']); ?></span>
+      </div>
+      <?php endforeach; ?>
+    </div>
   </div>
 </section>
 <?php endif; endif; ?>
@@ -213,7 +224,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
       $delay = $i > 1 ? ' rv-d' . ($i - 1) : '';
     ?>
     <div class="srv-item tilt rv<?php echo esc_attr($delay); ?>">
-      <div class="srv-num">0<?php echo $i; ?></div>
+      <div class="srv-num" aria-hidden="true">0<?php echo $i; ?></div>
       <div class="srv-icon"><?php echo $srv_icons[$i]; ?></div>
       <h3><?php echo $srv[$i]['title']; ?></h3>
       <p><?php echo $srv[$i]['desc']; ?></p>
@@ -297,27 +308,27 @@ $is_fallback = $prop_data['source'] === 'fallback';
   <div class="engage-grid">
     <div class="engage-card rv">
       <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
-      <h4><?php esc_html_e('Transparence', 'luxurycopro'); ?></h4>
+      <h3><?php esc_html_e('Transparence', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Professionnalisme et clarté dans toutes nos démarches et nos rapports.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d1">
       <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-      <h4><?php esc_html_e('Qualité de Service', 'luxurycopro'); ?></h4>
+      <h3><?php esc_html_e('Qualité de Service', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Des prestations rigoureuses et adaptées aux plus hautes exigences.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d2">
       <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-      <h4><?php esc_html_e('Réactivité & Proximité', 'luxurycopro'); ?></h4>
+      <h3><?php esc_html_e('Réactivité & Proximité', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Une écoute attentive et des réponses rapides à chacune de vos demandes.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d3">
       <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-      <h4><?php esc_html_e('Respect des Délais', 'luxurycopro'); ?></h4>
+      <h3><?php esc_html_e('Respect des Délais', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Respect des engagements pris et des échéances convenues avec nos clients.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d4">
       <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <h4><?php esc_html_e('Patrimoine Préservé', 'luxurycopro'); ?></h4>
+      <h3><?php esc_html_e('Patrimoine Préservé', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Préservation et valorisation durable de votre patrimoine immobilier.', 'luxurycopro'); ?></p>
     </div>
   </div>

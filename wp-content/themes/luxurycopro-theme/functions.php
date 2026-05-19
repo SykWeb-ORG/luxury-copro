@@ -1,7 +1,10 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '1.7.0');
+define('LC_VERSION', '2.4.0');
+
+/* ── HIDE ADMIN BAR ON FRONT END ── */
+add_filter('show_admin_bar', '__return_false');
 
 /* ── THEME SETUP ── */
 function lc_setup() {
@@ -27,17 +30,29 @@ function lc_preconnect_hints() {
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>' . "\n";
+    if (has_custom_logo()) {
+        $logo_id  = get_theme_mod('custom_logo');
+        $logo_url = wp_get_attachment_image_url($logo_id, 'full');
+        if ($logo_url) {
+            echo '<link rel="preload" as="image" href="' . esc_url($logo_url) . '">' . "\n";
+        }
+    }
+    if (is_front_page()) {
+        echo '<link rel="preload" as="video" href="' . esc_url(get_template_directory_uri() . '/assets/video/hero-web.mp4') . '" media="(min-width:769px)">' . "\n";
+    }
 }
 add_action('wp_head', 'lc_preconnect_hints', 1);
 
 /* ── ENQUEUE ASSETS ── */
 function lc_enqueue_assets() {
-    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap', [], null);
-    wp_enqueue_style('lc-main', get_template_directory_uri() . '/assets/css/main.css', ['google-fonts'], LC_VERSION);
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap', [], null);
+    $css_file = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? 'main.css' : 'main.min.css';
+    wp_enqueue_style('lc-main', get_template_directory_uri() . '/assets/css/' . $css_file, ['google-fonts'], LC_VERSION);
 
     wp_enqueue_script('gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', [], null, true);
     wp_enqueue_script('gsap-st', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', ['gsap'], null, true);
-    wp_enqueue_script('lc-main', get_template_directory_uri() . '/assets/js/main.js', ['gsap', 'gsap-st'], LC_VERSION, true);
+    $js_file = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? 'main.js' : 'main.min.js';
+    wp_enqueue_script('lc-main', get_template_directory_uri() . '/assets/js/' . $js_file, ['gsap', 'gsap-st'], LC_VERSION, true);
 
     $whatsapp = lc_get_option('lc_whatsapp', '212700727165');
     $email    = lc_get_option('lc_email', 'ezzine.surgar@gmail.com');
@@ -48,13 +63,55 @@ function lc_enqueue_assets() {
 }
 add_action('wp_enqueue_scripts', 'lc_enqueue_assets');
 
-function lc_defer_google_fonts($tag, $handle) {
-    if ($handle === 'google-fonts') {
+function lc_async_styles($tag, $handle) {
+    if (in_array($handle, ['google-fonts', 'lc-main'], true)) {
         return str_replace("media='all'", "media='print' onload=\"this.media='all'\"", $tag);
     }
     return $tag;
 }
-add_filter('style_loader_tag', 'lc_defer_google_fonts', 10, 2);
+add_filter('style_loader_tag', 'lc_async_styles', 10, 2);
+
+function lc_critical_css() {
+    ?>
+    <style id="critical-css">
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#060b14;--surface:#0d1520;--surface-2:#131e2e;--gold:#2968A0;--gold-light:#4A90C4;--gold-dim:rgba(41,104,160,.12);--text:#eef1f5;--muted:#7a8896;--glass:rgba(255,255,255,.04);--border:rgba(41,104,160,.15);--nav-bg:rgba(6,11,20,.65);--nav-bg-solid:rgba(6,11,20,.92);--shadow-color:rgba(0,0,0,.4);--stroke-color:#eef1f5;--ghost-border:rgba(255,255,255,.12)}
+    .light{--bg:#f5f7fa;--surface:#ffffff;--surface-2:#edf1f6;--gold:#1B3D5C;--gold-light:#143050;--gold-dim:rgba(27,61,92,.08);--text:#1a1a2e;--muted:#4f5b6e;--glass:rgba(0,0,0,.03);--border:rgba(27,61,92,.15);--nav-bg:rgba(245,247,250,.75);--nav-bg-solid:rgba(245,247,250,.95);--shadow-color:rgba(0,0,0,.08);--stroke-color:#1a1a2e;--ghost-border:rgba(0,0,0,.12)}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .5s,color .5s}
+    .loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
+    .loader.done{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-img{height:80px;width:auto}
+    .loader-logo{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--gold);letter-spacing:8px;overflow:hidden}
+    .loader-line{width:180px;height:1px;background:var(--border);position:relative;overflow:hidden}
+    nav{position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 5%;backdrop-filter:blur(24px);background:var(--nav-bg);border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;text-decoration:none}
+    .logo img{height:50px;width:auto;object-fit:contain}
+    .nav-menu{display:flex;gap:2.2rem;list-style:none;align-items:center}
+    .nav-menu a{color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:1.8px;text-transform:uppercase}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:600}
+    .hamburger span{width:24px;height:1.5px;background:var(--gold);display:block}
+    .hero{position:relative;min-height:calc(100vh - var(--nav-h,80px));display:flex;align-items:center;overflow:visible;padding-top:3rem;padding-bottom:3rem}
+    .hero-content{position:relative;z-index:2;padding:0 5%;max-width:680px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem}
+    .hero h1 em{font-style:italic;color:var(--gold);font-weight:500}
+    .hero h1 .stroke{-webkit-text-stroke:1.5px var(--stroke-color);color:transparent}
+    .hero-desc{font-size:1.05rem;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:2.5rem}
+    .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);z-index:100000}
+    .cur-dot,.cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999}
+    @media(max-width:768px){.cur-dot,.cur-ring{display:none}.hamburger{display:flex}.nav-menu{display:none}}
+    </style>
+    <?php
+}
+add_action('wp_head', 'lc_critical_css', 2);
+
+function lc_defer_scripts($tag, $handle) {
+    if (in_array($handle, ['gsap', 'gsap-st', 'lc-main'], true)) {
+        return str_replace(' src=', ' defer src=', $tag);
+    }
+    return $tag;
+}
+add_filter('script_loader_tag', 'lc_defer_scripts', 10, 2);
 
 /* ── CPT: PROPERTIES ── */
 function lc_register_properties_cpt() {

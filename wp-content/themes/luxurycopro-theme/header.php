@@ -4,6 +4,9 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="<?php echo esc_attr(get_bloginfo('description')); ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="alternate" hreflang="fr-MA" href="<?php echo esc_url(home_url('/')); ?>">
+  <link rel="alternate" hreflang="x-default" href="<?php echo esc_url(home_url('/')); ?>">
   <meta property="og:title" content="<?php echo esc_attr(get_bloginfo('name')); ?> — Gestion de Copropriété & Immobilier à Marrakech">
   <meta property="og:description" content="Gestion de copropriété, location, achat et vente de biens immobiliers à Marrakech. Accompagnement professionnel et transparent.">
   <meta property="og:type" content="website">
@@ -29,7 +32,7 @@
 
 <!-- LOADER -->
 <div class="loader" id="loader">
-  <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/logo.png'); ?>" alt="Luxury Copro" class="loader-img">
+  <img class="loader-img" src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png" alt="" width="140" height="50">
   <div class="loader-logo" id="loaderLogo"></div>
   <div class="loader-line"></div>
 </div>
@@ -50,7 +53,10 @@
     ?>
       <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" width="140" height="50">
     <?php else : ?>
-      <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png" alt="Luxury Copro" width="140" height="50">
+      <picture>
+        <source srcset="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.webp" type="image/webp">
+        <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/img/logo.png" alt="Luxury Copro" width="140" height="50">
+      </picture>
     <?php endif; ?>
   </a>
   <ul class="nav-menu">
