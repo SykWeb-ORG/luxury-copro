@@ -56,4 +56,6 @@ WordPress Admin → Références → Ajouter une référence
 
 ## Git
 - Remote: `github.com:SykWeb-ORG/luxury-copro.git`
-- Branch: `master`
+- Default branch: `master`
+- Workflow: every feature or fix lives on its own branch and is merged back only after review
+- Branch naming: `feature/<scope>-<short-description>`, `fix/<scope>-<short-description>`, `chore/<scope>-<short-description>`
