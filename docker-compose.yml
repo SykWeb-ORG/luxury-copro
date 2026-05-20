@@ -1,6 +1,13 @@
 services:
   wordpress:
-    image: wordpress:latest
+    build:
+      context: .
+      dockerfile: docker/wordpress/Dockerfile
+      target: wordpress
+      args:
+        WORDPRESS_UID: ${WORDPRESS_UID:-1000}
+        WORDPRESS_GID: ${WORDPRESS_GID:-1000}
+    image: luxury-copro-wordpress:local
     ports:
       - "8080:80"
     environment:
@@ -8,6 +15,8 @@ services:
       WORDPRESS_DB_USER: wp
       WORDPRESS_DB_PASSWORD: wp
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+        define('FS_METHOD', 'direct');
     volumes:
       - ./wp-content:/var/www/html/wp-content
       - wp_uploads:/var/www/html/wp-content/uploads
@@ -18,7 +27,14 @@ services:
     restart: unless-stopped
 
   seed:
-    image: wordpress:cli
+    build:
+      context: .
+      dockerfile: docker/wordpress/Dockerfile
+      target: cli
+      args:
+        WORDPRESS_UID: ${WORDPRESS_UID:-1000}
+        WORDPRESS_GID: ${WORDPRESS_GID:-1000}
+    image: luxury-copro-wordpress-cli:local
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wp
