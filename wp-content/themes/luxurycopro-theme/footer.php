@@ -11,6 +11,8 @@ $tp   = esc_html(lc_get_option('lc_tp', '64261180'));
 $if   = esc_html(lc_get_option('lc_if', '53830046'));
 $cnss = esc_html(lc_get_option('lc_cnss', '4910963'));
 $ice  = esc_html(lc_get_option('lc_ice', '003295207000042'));
+$privacy_url = lc_get_translated_page_url('politique-de-confidentialite');
+$legal_url   = lc_get_translated_page_url('mentions-legales');
 
 $logo_url = get_template_directory_uri() . '/assets/img/logo.png';
 if (has_custom_logo()) {
@@ -90,9 +92,9 @@ if (has_custom_logo()) {
     <p>&copy; <?php echo esc_html(date('Y')); ?> <?php echo esc_html(strtoupper(get_bloginfo('name'))); ?> — EZZINE SURGAR S.A.R.L. <?php esc_html_e('Tous droits réservés.', 'luxurycopro'); ?></p>
     <div class="foot-legal">RC: <?php echo $rc; ?> · TP: <?php echo $tp; ?> · IF: <?php echo $if; ?> · CNSS: <?php echo $cnss; ?> · ICE: <?php echo $ice; ?></div>
     <div class="foot-legal-links">
-      <a href="<?php echo esc_url(home_url('/politique-de-confidentialite/')); ?>"><?php esc_html_e('Politique de Confidentialité', 'luxurycopro'); ?></a>
+      <a href="<?php echo esc_url($privacy_url); ?>"><?php esc_html_e('Politique de Confidentialité', 'luxurycopro'); ?></a>
       <span class="foot-legal-sep">|</span>
-      <a href="<?php echo esc_url(home_url('/mentions-legales/')); ?>"><?php esc_html_e('Mentions Légales', 'luxurycopro'); ?></a>
+      <a href="<?php echo esc_url($legal_url); ?>"><?php esc_html_e('Mentions Légales', 'luxurycopro'); ?></a>
     </div>
   </div>
 </footer>

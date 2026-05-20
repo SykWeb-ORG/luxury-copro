@@ -113,6 +113,131 @@ function lc_defer_scripts($tag, $handle) {
 }
 add_filter('script_loader_tag', 'lc_defer_scripts', 10, 2);
 
+/* ── POLYLANG INTEGRATION ── */
+function lc_polylang_string_keys() {
+    return [
+        'lc_address_1' => 'Adresse ligne 1',
+        'lc_address_2' => 'Adresse ligne 2',
+        'lc_city' => 'Ville',
+        'lc_hero_tag' => 'Hero - petit label',
+        'lc_hero_title' => 'Hero - titre',
+        'lc_hero_desc' => 'Hero - description',
+        'lc_hero_btn1' => 'Hero - bouton principal',
+        'lc_hero_btn2' => 'Hero - bouton secondaire',
+        'lc_about_label' => 'Notre société - petit label',
+        'lc_about_title' => 'Notre société - titre',
+        'lc_about_p1' => 'Notre société - paragraphe 1',
+        'lc_about_p2' => 'Notre société - paragraphe 2',
+        'lc_refs_label' => 'Références - petit label',
+        'lc_refs_title' => 'Références - titre',
+        'lc_refs_intro' => 'Références - introduction',
+        'lc_biens_label' => 'Biens - petit label',
+        'lc_biens_title' => 'Biens - titre',
+        'lc_biens_title_fallback' => 'Biens - titre exemples',
+        'lc_biens_desc' => 'Biens - introduction',
+        'lc_biens_desc_fallback' => 'Biens - introduction exemples',
+        'lc_srv1_title' => 'Service 1 - titre',
+        'lc_srv1_desc' => 'Service 1 - description',
+        'lc_srv2_title' => 'Service 2 - titre',
+        'lc_srv2_desc' => 'Service 2 - description',
+        'lc_srv3_title' => 'Service 3 - titre',
+        'lc_srv3_desc' => 'Service 3 - description',
+        'lc_srv4_title' => 'Service 4 - titre',
+        'lc_srv4_desc' => 'Service 4 - description',
+    ];
+}
+
+function lc_register_polylang_strings() {
+    if (!function_exists('pll_register_string')) {
+        return;
+    }
+
+    foreach (lc_polylang_string_keys() as $key => $label) {
+        $value = get_theme_mod($key);
+
+        if (!is_string($value) || $value === '') {
+            continue;
+        }
+
+        pll_register_string('Luxury Copro - ' . $label, $value, 'Luxury Copro', true);
+    }
+}
+add_action('init', 'lc_register_polylang_strings');
+
+function lc_translate_theme_text_with_polylang($translation, $text, $domain) {
+    if ($domain !== 'luxurycopro' || !function_exists('pll__')) {
+        return $translation;
+    }
+
+    $polylang_translation = pll__($text);
+
+    return $polylang_translation !== $text ? $polylang_translation : $translation;
+}
+add_filter('gettext', 'lc_translate_theme_text_with_polylang', 20, 3);
+
+function lc_refresh_polylang_rewrite_rules_on_language_change() {
+    if (!function_exists('pll_languages_list')) {
+        return;
+    }
+
+    $languages = pll_languages_list(['fields' => 'slug']);
+
+    if (!is_array($languages) || empty($languages)) {
+        return;
+    }
+
+    sort($languages);
+    $signature = implode('|', $languages);
+
+    if ($signature === get_option('lc_polylang_language_signature', '')) {
+        return;
+    }
+
+    update_option('lc_polylang_language_signature', $signature, false);
+    delete_option('rewrite_rules');
+}
+add_action('wp_loaded', 'lc_refresh_polylang_rewrite_rules_on_language_change', 20);
+
+function lc_language_switcher($context = 'desktop') {
+    if (!function_exists('pll_the_languages')) {
+        return;
+    }
+
+    $languages = pll_the_languages([
+        'raw' => 1,
+        'hide_if_empty' => 0,
+        'hide_if_no_translation' => 0,
+    ]);
+
+    if (!is_array($languages) || count($languages) < 2) {
+        return;
+    }
+
+    $classes = 'lc-lang-switcher lc-lang-switcher--' . sanitize_html_class($context);
+    echo '<ul class="' . esc_attr($classes) . '" aria-label="' . esc_attr__('Choisir la langue', 'luxurycopro') . '">';
+
+    foreach ($languages as $language) {
+        $slug = isset($language['slug']) ? strtoupper((string) $language['slug']) : '';
+        $name = isset($language['name']) ? (string) $language['name'] : $slug;
+        $label = $slug !== '' ? $slug : mb_strtoupper(mb_substr($name, 0, 2));
+        $is_current = !empty($language['current_lang']);
+        $item_class = $is_current ? ' class="is-current"' : '';
+
+        $url = $language['url'] ?? '';
+        $locale = isset($language['locale']) ? str_replace('_', '-', (string) $language['locale']) : '';
+
+        echo '<li' . $item_class . '>';
+        if ($is_current || empty($url)) {
+            echo '<span' . ($is_current ? ' aria-current="true"' : '') . '>' . esc_html($label) . '</span>';
+        } else {
+            echo '<a href="' . esc_url($url) . '" lang="' . esc_attr($locale) . '">' . esc_html($label) . '</a>';
+        }
+        echo '</li>';
+    }
+
+    echo '</ul>';
+}
+
 /* ── CPT: PROPERTIES ── */
 function lc_register_properties_cpt() {
     $labels = [
@@ -332,7 +457,60 @@ add_action('customize_register', 'lc_customize_register');
 
 /* ── HELPER: Get Customizer option ── */
 function lc_get_option($key, $default = '') {
-    return get_theme_mod($key, $default);
+    $value = get_theme_mod($key, $default);
+
+    if (is_string($value) && function_exists('pll__') && array_key_exists($key, lc_polylang_string_keys())) {
+        return pll__($value);
+    }
+
+    return $value;
+}
+
+function lc_translate_content_value($value) {
+    if (!is_string($value) || $value === '' || !function_exists('pll__')) {
+        return $value;
+    }
+
+    return pll__($value);
+}
+
+function lc_translate_property_item(array $property) {
+    foreach (['badge', 'title', 'location', 'land_label', 'desc'] as $key) {
+        if (isset($property[$key])) {
+            $property[$key] = lc_translate_content_value($property[$key]);
+        }
+    }
+
+    if (isset($property['features']) && is_array($property['features'])) {
+        $property['features'] = array_map('lc_translate_content_value', $property['features']);
+    }
+
+    return $property;
+}
+
+function lc_translate_reference_item(array $reference) {
+    foreach (['name', 'service', 'location', 'desc'] as $key) {
+        if (isset($reference[$key])) {
+            $reference[$key] = lc_translate_content_value($reference[$key]);
+        }
+    }
+
+    return $reference;
+}
+
+function lc_get_translated_page_url($path) {
+    $path = trim($path, '/');
+    $page = get_page_by_path($path);
+
+    if ($page instanceof WP_Post && function_exists('pll_get_post')) {
+        $translated_id = pll_get_post($page->ID);
+
+        if ($translated_id) {
+            return get_permalink($translated_id);
+        }
+    }
+
+    return home_url('/' . $path . '/');
 }
 
 /* ── HELPER: Get properties (CPT or fallback) ── */
@@ -348,11 +526,12 @@ function lc_get_properties() {
         while ($query->have_posts()) {
             $query->the_post();
             $id = get_the_ID();
-            $properties[] = [
+            $property_type = get_post_meta($id, '_lc_type', true) ?: 'Vente';
+            $properties[] = lc_translate_property_item([
                 'id'         => $id,
                 'icon'       => mb_substr(get_the_title(), 0, 1),
-                'badge'      => get_post_meta($id, '_lc_type', true) ?: 'Vente',
-                'badge_class'=> lc_badge_class(get_post_meta($id, '_lc_type', true)),
+                'badge'      => $property_type,
+                'badge_class'=> lc_badge_class($property_type),
                 'price'      => get_post_meta($id, '_lc_price', true),
                 'title'      => get_the_title(),
                 'location'   => get_post_meta($id, '_lc_location', true),
@@ -366,7 +545,7 @@ function lc_get_properties() {
                 'features'   => array_filter(explode("\n", get_post_meta($id, '_lc_features', true) ?: '')),
                 'has_thumb'  => has_post_thumbnail(),
                 'thumb_url'  => get_the_post_thumbnail_url($id, 'large'),
-            ];
+            ]);
         }
         wp_reset_postdata();
         return ['source' => 'cpt', 'items' => $properties];
@@ -381,7 +560,7 @@ function lc_badge_class($type) {
 }
 
 function lc_fallback_properties() {
-    return [
+    $properties = [
         ['icon'=>'V','badge'=>'Exclusif','badge_class'=>'badge-exclu','price'=>'3 200 000 MAD','title'=>'Villa Contemporaine avec Piscine','location'=>'Route de l\'Ourika, Marrakech','ref'=>'LC-2024-001','bedrooms'=>'4','bathrooms'=>'3','area'=>'320','land'=>'800','land_label'=>'Terrain','desc'=>'Magnifique villa contemporaine située dans un quartier résidentiel prisé de Marrakech.','features'=>['Piscine privée','Jardin paysager','Garage double','Climatisation centrale','Cuisine équipée','Vue sur l\'Atlas','Sécurité 24h/24','Proche commodités']],
         ['icon'=>'A','badge'=>'Vente','badge_class'=>'badge-vente','price'=>'1 450 000 MAD','title'=>'Appartement Standing Guéliz','location'=>'Av. Mohammed V, Guéliz','ref'=>'LC-2024-002','bedrooms'=>'3','bathrooms'=>'2','area'=>'140','land'=>'3è','land_label'=>'Étage','desc'=>'Superbe appartement de standing au cœur de Guéliz.','features'=>['Balcon terrasse','Ascenseur','Parking sous-sol','Résidence sécurisée','Double vitrage','Parquet massif','Cuisine américaine','Proche tramway']],
         ['icon'=>'R','badge'=>'Vente','badge_class'=>'badge-vente','price'=>'4 800 000 MAD','title'=>'Riad Rénové — Médina','location'=>'Derb Jdid, Médina','ref'=>'LC-2024-003','bedrooms'=>'5','bathrooms'=>'5','area'=>'280','land'=>'Patio','land_label'=>'+ Terrasse','desc'=>'Riad d\'exception entièrement rénové dans les règles de l\'art.','features'=>['Patio avec fontaine','Terrasse panoramique','Zellige traditionnel','Hammam privé','Cuisine marocaine','Vue Koutoubia','Bois de cèdre sculpté','Rentabilité locative']],
@@ -389,6 +568,8 @@ function lc_fallback_properties() {
         ['icon'=>'V','badge'=>'Exclusif','badge_class'=>'badge-exclu','price'=>'6 500 000 MAD','title'=>'Villa de Luxe Palmeraie','location'=>'Circuit de la Palmeraie','ref'=>'LC-2024-005','bedrooms'=>'5','bathrooms'=>'4','area'=>'450','land'=>'2000','land_label'=>'Terrain','desc'=>'Villa de prestige nichée dans la légendaire Palmeraie de Marrakech.','features'=>['Piscine à débordement','Pool house','Jardin tropical','Personnel de maison','Domotique','Hammam & spa','Suite parentale 60m²','Sécurité renforcée']],
         ['icon'=>'T','badge'=>'Vente','badge_class'=>'badge-vente','price'=>'750 000 MAD','title'=>'Terrain Constructible Targa','location'=>'Targa, Marrakech','ref'=>'LC-2024-006','bedrooms'=>'—','bathrooms'=>'—','area'=>'500','land'=>'R+2','land_label'=>'Autorisé','desc'=>'Terrain plat et bien situé dans le quartier recherché de Targa.','features'=>['Titre foncier','Autorisation R+2','Réseaux en bordure','Accès goudronné','Quartier résidentiel','Terrain plat','Environnement calme','Proche écoles']],
     ];
+
+    return array_map('lc_translate_property_item', $properties);
 }
 
 /* ── CPT: REFERENCES ── */
@@ -483,14 +664,14 @@ function lc_get_references() {
     while ($query->have_posts()) {
         $query->the_post();
         $id = get_the_ID();
-        $refs[] = [
+        $refs[] = lc_translate_reference_item([
             'name'      => get_the_title(),
             'service'   => get_post_meta($id, '_lc_ref_service', true),
             'location'  => get_post_meta($id, '_lc_ref_location', true),
             'desc'      => get_post_meta($id, '_lc_ref_desc', true),
             'has_thumb' => has_post_thumbnail(),
             'thumb_url' => get_the_post_thumbnail_url($id, 'medium'),
-        ];
+        ]);
     }
     wp_reset_postdata();
     return $refs;
