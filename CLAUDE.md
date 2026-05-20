@@ -11,11 +11,13 @@ Luxury real estate & copropriété management website for a client in Marrakech.
 
 ## Local Development
 ```bash
-docker-compose up -d
+docker compose up -d --build
 # Site: http://localhost:8080
 # phpMyAdmin: http://localhost:8081
 # DB creds: wp / wp / wordpress
 ```
+
+The local Docker images remap `www-data` to `WORDPRESS_UID` / `WORDPRESS_GID` from `.env` (default `1000:1000`) so wp-admin can update plugins in the bind-mounted `wp-content` directory without permission drift.
 
 ## Theme Structure
 ```

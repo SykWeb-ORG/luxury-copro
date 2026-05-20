@@ -4,10 +4,11 @@ Custom WordPress project for the `luxurycopro-theme`, running locally with Docke
 
 ## Quick Start
 
-1. Run `docker compose up -d`.
-2. Follow `docker compose logs -f seed` and wait for `Luxury Copro bootstrap complete.` on the first boot.
-3. Open `http://localhost:8080`.
-4. Open `http://localhost:8080/wp-admin` for the back office.
+1. If your host user is not `1000:1000`, copy `.env.example` to `.env` and set `WORDPRESS_UID` / `WORDPRESS_GID` from `id -u` / `id -g`.
+2. Run `docker compose up -d --build`.
+3. Follow `docker compose logs -f seed` and wait for `Luxury Copro bootstrap complete.` on the first boot.
+4. Open `http://localhost:8080`.
+5. Open `http://localhost:8080/wp-admin` for the back office.
 
 Local admin credentials on a fresh clone:
 
@@ -24,8 +25,14 @@ Fresh environments are bootstrapped automatically:
 
 Useful commands:
 
-- Reset to a fresh seeded database: `docker compose down -v && docker compose up -d`
+- Reset to a fresh seeded database: `docker compose down -v && docker compose up -d --build`
 - Re-run the seed manually on an existing setup: `docker compose run --rm seed`
+
+## Local File Permissions
+
+The local WordPress images remap the container `www-data` user to the host UID/GID configured by `WORDPRESS_UID` and `WORDPRESS_GID`. This keeps the host user and wp-admin running with matching ownership on the bind-mounted `./wp-content` directory, so plugin updates, language updates, and theme writes can use WordPress' direct filesystem method.
+
+On startup, the WordPress container also normalizes ownership for writable `wp-content` paths such as `plugins`, `themes`, `languages`, `uploads`, `upgrade`, and `upgrade-temp-backup`. If you still see old mixed ownership after changing UID/GID values, rebuild the images with `docker compose build --no-cache wordpress seed`.
 
 ## Git Workflow
 
