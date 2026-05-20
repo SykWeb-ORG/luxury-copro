@@ -20,6 +20,7 @@ Local admin credentials on a fresh clone:
 Fresh environments are bootstrapped automatically:
 
 - `scripts/seed-entrypoint.sh` waits for WordPress/MySQL, installs WordPress if needed, activates the theme, then runs the project seed once.
+- The seed container installs and activates the free Polylang multilingual plugin if it is missing.
 - `scripts/seed-database.php` creates the legal pages, theme settings, reference entries, and sample property data used for development.
 - Uploaded media is kept in the `wp_uploads` Docker volume so WordPress can write files without host permission issues.
 
@@ -27,6 +28,12 @@ Useful commands:
 
 - Reset to a fresh seeded database: `docker compose down -v && docker compose up -d --build`
 - Re-run the seed manually on an existing setup: `docker compose run --rm seed`
+
+## Multilingual Setup
+
+Polylang is installed automatically on local bootstrap. After the first boot, open `http://localhost:8080/wp-admin`, run the Polylang setup wizard from the admin notice, and add French as the default language plus any additional languages needed.
+
+Once at least two languages exist, the theme displays a compact language switcher in the desktop and mobile navigation. Main Customizer text fields are also registered under Polylang's string translations so they can be translated per language.
 
 ## Local File Permissions
 

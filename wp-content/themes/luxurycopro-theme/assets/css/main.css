@@ -120,11 +120,20 @@ nav.compact .logo img{height:36px}
 .theme-toggle .t-moon{left:5px;opacity:0}
 .light .theme-toggle .t-sun{opacity:0}
 .light .theme-toggle .t-moon{opacity:1}
+.lc-lang-switcher{display:flex;align-items:center;gap:.35rem;list-style:none}
+.lc-lang-switcher a,.lc-lang-switcher span{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:28px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;text-transform:uppercase;transition:background .3s,border-color .3s,color .3s}
+.lc-lang-switcher a:hover,.lc-lang-switcher .is-current span{background:var(--gold);border-color:var(--gold);color:#fff}
 
 @media(max-width:900px){
   .nav-menu{display:none}
+  .lc-lang-switcher--desktop{display:none}
+  .lc-lang-switcher--mobile{margin-top:.5rem}
   .hamburger{display:flex}
   .theme-toggle{margin-left:0}
+}
+
+@media(min-width:901px){
+  .lc-lang-switcher--mobile{display:none}
 }
 
 /* ══════ HERO ══════ */

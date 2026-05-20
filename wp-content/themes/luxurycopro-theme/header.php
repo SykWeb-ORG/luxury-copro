@@ -69,6 +69,7 @@
     <li><a href="#contact" class="nav-btn"><?php esc_html_e('Nous Contacter', 'luxurycopro'); ?></a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:.8rem">
+    <?php lc_language_switcher('desktop'); ?>
     <div class="theme-toggle" id="themeToggle" title="<?php esc_attr_e('Changer le thème', 'luxurycopro'); ?>" role="button" aria-label="<?php esc_attr_e('Basculer entre mode clair et sombre', 'luxurycopro'); ?>" tabindex="0">
       <span class="t-icon t-moon">☽</span>
       <span class="t-icon t-sun">☼</span>
@@ -91,4 +92,5 @@
   <a href="#services" class="mm-link"><?php esc_html_e('Services', 'luxurycopro'); ?></a>
   <a href="#apropos" class="mm-link"><?php esc_html_e('Engagements', 'luxurycopro'); ?></a>
   <a href="#contact" class="mm-link mm-cta"><?php esc_html_e('Nous Contacter', 'luxurycopro'); ?></a>
+  <?php lc_language_switcher('mobile'); ?>
 </div>

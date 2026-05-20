@@ -4,6 +4,9 @@ wp-config.php
 # Debug log
 wp-content/debug.log
 
+# Runtime-installed plugins
+wp-content/plugins/polylang/
+
 # Uploads (large media files)
 wp-content/uploads/
 

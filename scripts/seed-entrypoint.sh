@@ -7,11 +7,28 @@ SEED_SITE_TITLE="${SEED_SITE_TITLE:-Luxury Copro}"
 SEED_ADMIN_USER="${SEED_ADMIN_USER:-devadmin}"
 SEED_ADMIN_PASSWORD="${SEED_ADMIN_PASSWORD:-devpassword}"
 SEED_ADMIN_EMAIL="${SEED_ADMIN_EMAIL:-dev@luxury-copro.local}"
-SEED_VERSION="${SEED_VERSION:-2026-05-20.1}"
+SEED_VERSION="${SEED_VERSION:-2026-05-20.2}"
 WORDPRESS_DB_HOST="${WORDPRESS_DB_HOST:-db}"
 WORDPRESS_DB_USER="${WORDPRESS_DB_USER:-wp}"
 WORDPRESS_DB_PASSWORD="${WORDPRESS_DB_PASSWORD:-wp}"
+WP_CLI_CACHE_DIR="${WP_CLI_CACHE_DIR:-/tmp/wp-cli-cache}"
+export WP_CLI_CACHE_DIR
 WP_CLI="wp --allow-root --path=${WP_PATH}"
+
+mkdir -p "${WP_CLI_CACHE_DIR}"
+
+install_polylang() {
+  echo "Ensuring Polylang multilingual plugin is installed..."
+
+  if ! ${WP_CLI} plugin is-installed polylang >/dev/null 2>&1; then
+    ${WP_CLI} plugin install polylang --activate >/dev/null
+    return
+  fi
+
+  if ! ${WP_CLI} plugin is-active polylang >/dev/null 2>&1; then
+    ${WP_CLI} plugin activate polylang >/dev/null
+  fi
+}
 
 echo "Waiting for WordPress bootstrap files..."
 until [ -f "${WP_PATH}/wp-config.php" ]; do
@@ -37,6 +54,7 @@ fi
 echo "Activating theme and permalink structure..."
 ${WP_CLI} theme activate luxurycopro-theme >/dev/null
 ${WP_CLI} rewrite structure "/%postname%/" --hard >/dev/null 2>&1 || true
+install_polylang
 
 CURRENT_VERSION="$(${WP_CLI} option get luxury_copro_seed_version 2>/dev/null || true)"
 
