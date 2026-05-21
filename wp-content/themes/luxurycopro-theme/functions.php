@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '2.4.0');
+define('LC_VERSION', '2.6.0');
 
 /* ── HIDE ADMIN BAR ON FRONT END ── */
 add_filter('show_admin_bar', '__return_false');
@@ -75,14 +75,14 @@ function lc_critical_css() {
     ?>
     <style id="critical-css">
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--bg:#060b14;--surface:#0d1520;--surface-2:#131e2e;--gold:#2968A0;--gold-light:#4A90C4;--gold-dim:rgba(41,104,160,.12);--text:#eef1f5;--muted:#7a8896;--glass:rgba(255,255,255,.04);--border:rgba(41,104,160,.15);--nav-bg:rgba(6,11,20,.65);--nav-bg-solid:rgba(6,11,20,.92);--shadow-color:rgba(0,0,0,.4);--stroke-color:#eef1f5;--ghost-border:rgba(255,255,255,.12)}
-    .light{--bg:#f5f7fa;--surface:#ffffff;--surface-2:#edf1f6;--gold:#1B3D5C;--gold-light:#143050;--gold-dim:rgba(27,61,92,.08);--text:#1a1a2e;--muted:#4f5b6e;--glass:rgba(0,0,0,.03);--border:rgba(27,61,92,.15);--nav-bg:rgba(245,247,250,.75);--nav-bg-solid:rgba(245,247,250,.95);--shadow-color:rgba(0,0,0,.08);--stroke-color:#1a1a2e;--ghost-border:rgba(0,0,0,.12)}
+    :root{--bg:#060b14;--surface:#0d1520;--surface-2:#131e2e;--primary:#2968A0;--primary-light:#4A90C4;--primary-dim:rgba(41,104,160,.12);--text:#eef1f5;--muted:#7a8896;--glass:rgba(255,255,255,.04);--border:rgba(41,104,160,.15);--nav-bg:rgba(6,11,20,.65);--nav-bg-solid:rgba(6,11,20,.92);--shadow-color:rgba(0,0,0,.4);--stroke-color:#eef1f5;--ghost-border:rgba(255,255,255,.12)}
+    .light{--bg:#f5f7fa;--surface:#ffffff;--surface-2:#edf1f6;--primary:#1B3D5C;--primary-light:#143050;--primary-dim:rgba(27,61,92,.08);--text:#1a1a2e;--muted:#4f5b6e;--glass:rgba(0,0,0,.03);--border:rgba(27,61,92,.15);--nav-bg:rgba(245,247,250,.75);--nav-bg-solid:rgba(245,247,250,.95);--shadow-color:rgba(0,0,0,.08);--stroke-color:#1a1a2e;--ghost-border:rgba(0,0,0,.12)}
     html{scroll-behavior:smooth;overflow-x:hidden}
     body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .5s,color .5s}
     .loader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
     .loader.done{opacity:0;visibility:hidden;pointer-events:none}
     .loader-img{height:80px;width:auto}
-    .loader-logo{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--gold);letter-spacing:8px;overflow:hidden}
+    .loader-logo{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--primary);letter-spacing:8px;overflow:hidden}
     .loader-line{width:180px;height:1px;background:var(--border);position:relative;overflow:hidden}
     nav{position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 5%;backdrop-filter:blur(24px);background:var(--nav-bg);border-bottom:1px solid var(--border)}
     .logo{display:flex;align-items:center;text-decoration:none}
@@ -90,11 +90,11 @@ function lc_critical_css() {
     .nav-menu{display:flex;gap:2.2rem;list-style:none;align-items:center}
     .nav-menu a{color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:1.8px;text-transform:uppercase}
     .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:600}
-    .hamburger span{width:24px;height:1.5px;background:var(--gold);display:block}
+    .hamburger span{width:24px;height:1.5px;background:var(--primary);display:block}
     .hero{position:relative;min-height:calc(100vh - var(--nav-h,80px));display:flex;align-items:center;overflow:visible;padding-top:3rem;padding-bottom:3rem}
     .hero-content{position:relative;z-index:2;padding:0 5%;max-width:680px}
     .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem}
-    .hero h1 em{font-style:italic;color:var(--gold);font-weight:500}
+    .hero h1 em{font-style:italic;color:var(--primary);font-weight:500}
     .hero h1 .stroke{-webkit-text-stroke:1.5px var(--stroke-color);color:transparent}
     .hero-desc{font-size:1.05rem;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:2.5rem}
     .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);z-index:100000}
@@ -408,7 +408,7 @@ function lc_customize_register($wp_customize) {
     $wp_customize->add_control('lc_about_visible', ['label' => 'Afficher la section', 'section' => 'lc_about', 'type' => 'checkbox']);
     $about_fields = [
         'lc_about_label' => ['label' => 'Petit label', 'default' => 'Qui Sommes-Nous', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
-        'lc_about_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Notre <span style="color:var(--gold)">Société</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_about_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Notre <span style="color:var(--primary)">Société</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
         'lc_about_p1'    => ['label' => 'Premier paragraphe', 'default' => 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
         'lc_about_p2'    => ['label' => 'Deuxième paragraphe', 'default' => 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
     ];
@@ -426,7 +426,7 @@ function lc_customize_register($wp_customize) {
     $wp_customize->add_control('lc_refs_visible', ['label' => 'Afficher la section', 'section' => 'lc_refs', 'type' => 'checkbox']);
     $refs_fields = [
         'lc_refs_label' => ['label' => 'Petit label', 'default' => 'Références', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
-        'lc_refs_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Ils nous font <span style="color:var(--gold)">confiance</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_refs_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Ils nous font <span style="color:var(--primary)">confiance</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
         'lc_refs_intro' => ['label' => 'Texte d\'introduction', 'default' => 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
     ];
     foreach ($refs_fields as $id => $f) {
@@ -443,8 +443,8 @@ function lc_customize_register($wp_customize) {
     $wp_customize->add_control('lc_biens_visible', ['label' => 'Afficher la section', 'section' => 'lc_biens', 'type' => 'checkbox']);
     $biens_fields = [
         'lc_biens_label' => ['label' => 'Petit label', 'default' => 'Notre Portefeuille', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
-        'lc_biens_title' => ['label' => 'Titre (HTML)', 'default' => 'Nos Biens<br><span style="color:var(--gold)">Disponibles</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
-        'lc_biens_title_fallback' => ['label' => 'Titre mode exemples (HTML)', 'default' => 'Exemples de Biens<br><span style="color:var(--gold)">Disponibles</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_biens_title' => ['label' => 'Titre (HTML)', 'default' => 'Nos Biens<br><span style="color:var(--primary)">Disponibles</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
+        'lc_biens_title_fallback' => ['label' => 'Titre mode exemples (HTML)', 'default' => 'Exemples de Biens<br><span style="color:var(--primary)">Disponibles</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
         'lc_biens_desc'  => ['label' => 'Texte d\'introduction', 'default' => 'Découvrez notre sélection de biens immobiliers à Marrakech. Contactez-nous pour plus d\'informations.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
         'lc_biens_desc_fallback' => ['label' => 'Texte mode exemples', 'default' => 'Les biens présentés ci-dessous sont des exemples illustratifs. Pour consulter nos offres réelles et actualisées, veuillez nous contacter directement.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
     ];
@@ -452,6 +452,15 @@ function lc_customize_register($wp_customize) {
         $wp_customize->add_setting($id, ['default' => $f['default'], 'sanitize_callback' => $f['sanitize'], 'transport' => 'refresh']);
         $wp_customize->add_control($id, ['label' => $f['label'], 'section' => 'lc_biens', 'type' => $f['type']]);
     }
+    $wp_customize->add_section('lc_seo', [
+        'title' => __('SEO / Réseaux sociaux', 'luxurycopro'),
+        'panel' => 'lc_panel',
+    ]);
+    $wp_customize->add_setting('lc_og_image', ['default' => '', 'sanitize_callback' => 'esc_url_raw']);
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'lc_og_image', [
+        'label' => __('Image OG (1200x630 recommandé)', 'luxurycopro'),
+        'section' => 'lc_seo',
+    ]));
 }
 add_action('customize_register', 'lc_customize_register');
 
