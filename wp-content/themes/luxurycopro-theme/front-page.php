@@ -82,18 +82,12 @@ $is_fallback = $prop_data['source'] === 'fallback';
     if (!empty($hero_refs)) :
   ?>
   <div class="hero-showcase">
-    <?php foreach ($hero_refs as $ci => $hr) :
-      $fc_class = 'fc-' . ($ci + 1);
-      $num = str_pad($ci + 1, 2, '0', STR_PAD_LEFT);
-      $img = ($hr['has_thumb'] && $hr['thumb_url']) ? $hr['thumb_url'] : get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
-    ?>
-    <div class="float-card <?php echo $fc_class; ?>">
-      <div class="fc-img" style="background-image:url('<?php echo esc_url($img); ?>')"></div>
+    <?php foreach ($hero_refs as $ci => $hr) : ?>
+    <div class="float-card fc-<?php echo $ci + 1; ?>">
       <div class="fc-body">
         <div class="fc-price"><?php echo esc_html($hr['name']); ?></div>
         <div class="fc-loc"><?php echo esc_html($hr['service']); ?> · <?php echo esc_html($hr['location']); ?></div>
       </div>
-      <div class="fc-shine"></div>
     </div>
     <?php endforeach; ?>
   </div>
@@ -131,27 +125,13 @@ $is_fallback = $prop_data['source'] === 'fallback';
   </div>
   <div class="refs-carousel">
     <div class="refs-track">
-      <?php foreach ($refs as $ri => $ref) :
-        $num = str_pad($ri + 1, 2, '0', STR_PAD_LEFT);
-        $img = get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
-        if ($ref['has_thumb'] && $ref['thumb_url']) {
-          $img = $ref['thumb_url'];
-        }
-      ?>
+      <?php foreach ($refs as $ref) : ?>
       <div class="ref-logo-item">
-        <div class="ref-logo-img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($ref['name']); ?>" loading="lazy"></div>
         <span class="ref-logo-name"><?php echo esc_html($ref['name']); ?></span>
       </div>
       <?php endforeach; ?>
-      <?php foreach ($refs as $ri => $ref) :
-        $num = str_pad($ri + 1, 2, '0', STR_PAD_LEFT);
-        $img = get_template_directory_uri() . '/assets/img/refs/ref-' . $num . '.jpg';
-        if ($ref['has_thumb'] && $ref['thumb_url']) {
-          $img = $ref['thumb_url'];
-        }
-      ?>
+      <?php foreach ($refs as $ref) : ?>
       <div class="ref-logo-item" aria-hidden="true">
-        <div class="ref-logo-img"><img src="<?php echo esc_url($img); ?>" alt="" loading="lazy"></div>
         <span class="ref-logo-name"><?php echo esc_html($ref['name']); ?></span>
       </div>
       <?php endforeach; ?>

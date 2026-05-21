@@ -376,9 +376,9 @@ document.querySelectorAll('.tilt').forEach(function(card){
 
 // ── PARALLAX FLOATING CARDS ──
 var floatBaseTransforms = [
-  'rotateY(-12deg) rotateX(4deg)',
-  'rotateY(-8deg) rotateX(-3deg)',
-  'rotateY(-15deg) rotateX(6deg)'
+  'rotateY(-8deg) rotateX(3deg)',
+  'rotateY(-5deg) rotateX(-2deg)',
+  'rotateY(-10deg) rotateX(5deg)'
 ];
 document.addEventListener('mousemove', function(e){
   var x = (e.clientX / innerWidth - 0.5) * 2;
