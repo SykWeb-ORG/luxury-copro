@@ -28,6 +28,9 @@ Useful commands:
 
 - Reset to a fresh seeded database: `docker compose down -v && docker compose up -d --build`
 - Re-run the seed manually on an existing setup: `docker compose run --rm seed`
+- Generate the production stylesheet: `scripts/minify-main-css.sh`
+
+Set `SCRIPT_DEBUG=true` in `.env` to load the unminified theme assets during local development. Leave it `false` to load `assets/css/main.min.css` and `assets/js/main.min.js`.
 
 ## Multilingual Setup
 
