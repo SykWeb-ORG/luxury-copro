@@ -103,7 +103,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- ABOUT INTRO -->
 <section class="about-intro" id="presentation">
   <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_about_label', 'Qui Sommes-Nous')); ?></div>
-  <h2 class="sec-title about-3d-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_about_title', 'Notre <span style="color:var(--gold)">Société</span>')); ?></h2>
+  <h2 class="sec-title about-3d-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_about_title', 'Notre <span style="color:var(--primary)">Société</span>')); ?></h2>
   <div class="about-inner">
     <p class="rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_about_p1', 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.')); ?></p>
     <p class="rv rv-d3"><?php echo wp_kses_post(lc_get_option('lc_about_p2', 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.')); ?></p>
@@ -119,7 +119,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
   <div class="refs-header">
     <div class="refs-header-left">
       <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_refs_label', 'Références')); ?></div>
-      <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_refs_title', 'Ils nous font <span style="color:var(--gold)">confiance</span>')); ?></h2>
+      <h2 class="sec-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_refs_title', 'Ils nous font <span style="color:var(--primary)">confiance</span>')); ?></h2>
     </div>
     <p class="refs-header-desc rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_refs_intro', 'Nous accompagnons différentes résidences et clients dans la gestion, la valorisation et le suivi de leurs biens immobiliers.')); ?></p>
   </div>
@@ -146,7 +146,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
   <div class="prop-header">
     <div>
       <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_biens_label', 'Notre Portefeuille')); ?></div>
-      <h2 class="sec-title rv rv-d1"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_title_fallback', 'Exemples de Biens<br><span style="color:var(--gold)">Disponibles</span>')) : wp_kses_post(lc_get_option('lc_biens_title', 'Nos Biens<br><span style="color:var(--gold)">Disponibles</span>')); ?></h2>
+      <h2 class="sec-title rv rv-d1"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_title_fallback', 'Exemples de Biens<br><span style="color:var(--primary)">Disponibles</span>')) : wp_kses_post(lc_get_option('lc_biens_title', 'Nos Biens<br><span style="color:var(--primary)">Disponibles</span>')); ?></h2>
       <p class="sec-sub rv rv-d1" style="margin-bottom:1rem"><?php echo $is_fallback ? wp_kses_post(lc_get_option('lc_biens_desc_fallback', 'Les biens présentés ci-dessous sont des exemples illustratifs. Pour consulter nos offres réelles et actualisées, veuillez nous contacter directement.')) : wp_kses_post(lc_get_option('lc_biens_desc', 'Découvrez notre sélection de biens immobiliers à Marrakech. Contactez-nous pour plus d\'informations.')); ?></p>
     </div>
     <div class="prop-filters rv rv-d2" role="group" aria-label="Filtrer les biens">
@@ -174,7 +174,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
       <div class="p-body">
         <div class="p-price"><?php echo esc_html($p['price']); ?></div>
         <div class="p-title"><?php echo esc_html($p['title']); ?></div>
-        <div class="p-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="var(--surface)"/></svg> <?php echo esc_html($p['location']); ?></div>
+        <div class="p-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--primary)" stroke="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="var(--surface)"/></svg> <?php echo esc_html($p['location']); ?></div>
         <div class="p-specs">
           <div class="p-spec"><span class="val"><?php echo esc_html($p['bedrooms']); ?></span><span class="lbl"><?php esc_html_e('Chambres', 'luxurycopro'); ?></span></div>
           <div class="p-spec"><span class="val"><?php echo esc_html($p['bathrooms']); ?></span><span class="lbl">SDB</span></div>
@@ -191,7 +191,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- SERVICES -->
 <section class="services-row" id="services">
   <div class="sec-label rv" style="padding:0"><?php esc_html_e('Nos Services', 'luxurycopro'); ?></div>
-  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Un Accompagnement', 'luxurycopro'); ?><br><span style="color:var(--gold)"><?php esc_html_e('Complet', 'luxurycopro'); ?></span></h2>
+  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Un Accompagnement', 'luxurycopro'); ?><br><span style="color:var(--primary)"><?php esc_html_e('Complet', 'luxurycopro'); ?></span></h2>
   <div class="srv-grid">
     <?php
     $srv_icons = [
@@ -283,31 +283,31 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- ENGAGEMENTS -->
 <section class="why" id="apropos">
   <div class="sec-label rv"><?php esc_html_e('Nos Engagements', 'luxurycopro'); ?></div>
-  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Votre Partenaire', 'luxurycopro'); ?><br><?php esc_html_e('de', 'luxurycopro'); ?> <span style="color:var(--gold)"><?php esc_html_e('Confiance', 'luxurycopro'); ?></span></h2>
+  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Votre Partenaire', 'luxurycopro'); ?><br><?php esc_html_e('de', 'luxurycopro'); ?> <span style="color:var(--primary)"><?php esc_html_e('Confiance', 'luxurycopro'); ?></span></h2>
 
   <div class="engage-grid">
     <div class="engage-card rv">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
       <h3><?php esc_html_e('Transparence', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Professionnalisme et clarté dans toutes nos démarches et nos rapports.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d1">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
       <h3><?php esc_html_e('Qualité de Service', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Des prestations rigoureuses et adaptées aux plus hautes exigences.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d2">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
       <h3><?php esc_html_e('Réactivité & Proximité', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Une écoute attentive et des réponses rapides à chacune de vos demandes.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d3">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       <h3><?php esc_html_e('Respect des Délais', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Respect des engagements pris et des échéances convenues avec nos clients.', 'luxurycopro'); ?></p>
     </div>
     <div class="engage-card rv rv-d4">
-      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="e-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
       <h3><?php esc_html_e('Patrimoine Préservé', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Préservation et valorisation durable de votre patrimoine immobilier.', 'luxurycopro'); ?></p>
     </div>
@@ -345,7 +345,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="sec-label rv"><?php esc_html_e('Contact', 'luxurycopro'); ?></div>
-  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Parlons de Votre', 'luxurycopro'); ?><br><span style="color:var(--gold)"><?php esc_html_e('Projet', 'luxurycopro'); ?></span></h2>
+  <h2 class="sec-title rv rv-d1"><?php esc_html_e('Parlons de Votre', 'luxurycopro'); ?><br><span style="color:var(--primary)"><?php esc_html_e('Projet', 'luxurycopro'); ?></span></h2>
 
   <div class="ct-location-card rv rv-d2">
     <div class="ct-loc-info">
@@ -429,8 +429,8 @@ $is_fallback = $prop_data['source'] === 'fallback';
 </section>
 
 <!-- PROPERTY MODAL -->
-<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e('Détails du bien', 'luxurycopro'); ?>">
-  <div class="modal">
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e('Détails du bien', 'luxurycopro'); ?>">
     <button class="modal-close" id="modalClose" aria-label="<?php esc_attr_e('Fermer', 'luxurycopro'); ?>">&times;</button>
     <div class="modal-hero">
       <span class="m-icon" id="modalIcon">V</span>
@@ -445,7 +445,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
         </div>
         <div style="text-align:right">
           <div style="font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)"><?php esc_html_e('Référence', 'luxurycopro'); ?></div>
-          <div style="font-weight:700;color:var(--gold)" id="modalRef"></div>
+          <div style="font-weight:700;color:var(--primary)" id="modalRef"></div>
         </div>
       </div>
       <div class="modal-specs" id="modalSpecs"></div>

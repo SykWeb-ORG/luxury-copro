@@ -456,13 +456,17 @@ document.querySelectorAll('.prop-card').forEach(function(card, i){
     document.getElementById('modalLoc').textContent = d.loc;
     document.getElementById('modalRef').textContent = d.ref;
     var specs = document.getElementById('modalSpecs');
-    specs.innerHTML = '';
+    specs.textContent = '';
     for (var j = 0; j < d.specs.length; j += 2) {
-      specs.innerHTML += '<div class="ms"><div class="ms-val">' + d.specs[j] + '</div><div class="ms-lbl">' + d.specs[j+1] + '</div></div>';
+      var ms = document.createElement('div'); ms.className = 'ms';
+      var msVal = document.createElement('div'); msVal.className = 'ms-val'; msVal.textContent = d.specs[j];
+      var msLbl = document.createElement('div'); msLbl.className = 'ms-lbl'; msLbl.textContent = d.specs[j+1];
+      ms.appendChild(msVal); ms.appendChild(msLbl); specs.appendChild(ms);
     }
     document.getElementById('modalDesc').textContent = d.desc;
     var feats = document.getElementById('modalFeatures');
-    feats.innerHTML = d.features.map(function(f){ return '<div class="mf">' + f + '</div>'; }).join('');
+    feats.textContent = '';
+    d.features.forEach(function(f){ var mf = document.createElement('div'); mf.className = 'mf'; mf.textContent = f; feats.appendChild(mf); });
     var waBtn = document.getElementById('modalWaBtn');
     if (waBtn) waBtn.href = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent('Bonjour, je suis intéressé par le bien ' + d.ref + ' — ' + d.title);
     overlay.classList.add('open');
@@ -505,16 +509,20 @@ if (backToTop) {
 
 // ── LAZY MAP ──
 var mapIframe = document.querySelector('.ct-loc-map iframe[data-src]');
-if (mapIframe && 'IntersectionObserver' in window) {
-  var mapObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) {
-        e.target.src = e.target.dataset.src;
-        mapObs.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '300px' });
-  mapObs.observe(mapIframe);
+if (mapIframe) {
+  if ('IntersectionObserver' in window) {
+    var mapObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.src = e.target.dataset.src;
+          mapObs.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '300px' });
+    mapObs.observe(mapIframe);
+  } else {
+    mapIframe.src = mapIframe.dataset.src;
+  }
 }
 
 // ── TOAST NOTIFICATION ──
