@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '2.4.0');
+define('LC_VERSION', '2.5.2');
 
 /* ── HIDE ADMIN BAR ON FRONT END ── */
 add_filter('show_admin_bar', '__return_false');
