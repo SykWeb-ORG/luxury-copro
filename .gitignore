@@ -10,6 +10,9 @@ wp-content/plugins/polylang/
 # Uploads (large media files)
 wp-content/uploads/
 
+# Generated/minified CSS (built in prod)
+wp-content/themes/luxurycopro-theme/assets/css/main.min.css
+
 # Large source video files (keep only web-optimized)
 wp-content/themes/luxurycopro-theme/assets/video/hero.mp4
 
