@@ -42,7 +42,7 @@ if (loaderLogo) {
   var brand = 'LUXURY COPRO';
   brand.split('').forEach(function(c, i){
     var s = document.createElement('span');
-    s.textContent = c === ' ' ? ' ' : c;
+    s.textContent = c === ' ' ? ' ' : c;
     s.style.animationDelay = i * 0.04 + 's';
     loaderLogo.appendChild(s);
   });
