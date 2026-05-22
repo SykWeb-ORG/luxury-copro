@@ -61,7 +61,6 @@ if (has_custom_logo()) {
     <div class="foot-brand">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="foot-logo">
         <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" width="106" height="38">
-        <span><?php echo esc_html(strtoupper(get_bloginfo('name'))); ?></span>
       </a>
       <p><?php esc_html_e('Gestion de Copropriété — Travaux Techniques Divers — Intérim — Immobilier. Votre partenaire de confiance à', 'luxurycopro'); ?> <?php echo $city; ?>.</p>
     </div>
