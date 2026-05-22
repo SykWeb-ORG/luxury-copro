@@ -38,6 +38,26 @@ Polylang is installed automatically on local bootstrap. After the first boot, op
 
 Once at least two languages exist, the theme displays a compact language switcher in the desktop and mobile navigation. Main Customizer text fields are also registered under Polylang's string translations so they can be translated per language.
 
+## Production Polylang Seed
+
+Use the production Polylang seed over SSH when the WordPress site already exists, for example on Hostinger shared hosting. It installs/activates Polylang, creates French and English, applies the required Polylang options, seeds Luxury Copro string translations, assigns existing content without a language to French, and flushes rewrites.
+
+It does not install WordPress, activate the theme, change `home` / `siteurl`, delete content, or create demo properties/pages.
+
+From the production WordPress root:
+
+```sh
+wp db export before-polylang-$(date +%F-%H%M).sql
+WP_PATH="$PWD" scripts/seed-polylang-production.sh
+```
+
+Useful overrides:
+
+```sh
+LC_POLYLANG_ASSIGN_EXISTING_CONTENT=0 WP_PATH="$PWD" scripts/seed-polylang-production.sh
+LC_POLYLANG_HIDE_DEFAULT=0 WP_PATH="$PWD" scripts/seed-polylang-production.sh
+```
+
 ## Local File Permissions
 
 The local WordPress images remap the container `www-data` user to the host UID/GID configured by `WORDPRESS_UID` and `WORDPRESS_GID`. This keeps the host user and wp-admin running with matching ownership on the bind-mounted `./wp-content` directory, so plugin updates, language updates, and theme writes can use WordPress' direct filesystem method.
