@@ -62,7 +62,7 @@ if (has_custom_logo()) {
       <a href="<?php echo esc_url(home_url('/')); ?>" class="foot-logo">
         <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" width="106" height="38">
       </a>
-      <p><?php esc_html_e('Gestion de Copropriété — Travaux Techniques Divers — Intérim — Immobilier. Votre partenaire de confiance à', 'luxurycopro'); ?> <?php echo $city; ?>.</p>
+      <p><?php esc_html_e('Syndic de copropriété — Travaux Techniques Divers — Intérim — Immobilier. Votre partenaire de confiance à', 'luxurycopro'); ?> <?php echo $city; ?>.</p>
     </div>
     <div class="foot-col">
       <h4><?php esc_html_e('Navigation', 'luxurycopro'); ?></h4>

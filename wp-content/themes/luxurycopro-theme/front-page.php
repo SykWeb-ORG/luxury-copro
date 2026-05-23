@@ -12,14 +12,14 @@ $maps     = esc_url(lc_get_option('lc_maps_embed', 'https://www.google.com/maps/
 
 $hero_tag   = esc_html(lc_get_option('lc_hero_tag', 'Copropriété & Immobilier — Marrakech'));
 $hero_title = wp_kses_post(lc_get_option('lc_hero_title', 'Votre Patrimoine,<br><em>Notre</em><br><span class="stroke">Expertise</span>'));
-$hero_desc  = esc_html(lc_get_option('lc_hero_desc', 'Gestion de copropriété, location, achat et vente de biens immobiliers. Un accompagnement professionnel et transparent à Marrakech.'));
+$hero_desc  = esc_html(lc_get_option('lc_hero_desc', 'Syndic de copropriété, location, achat et vente de biens immobiliers. Un accompagnement professionnel et transparent à Marrakech.'));
 $hero_btn1  = esc_html(lc_get_option('lc_hero_btn1', 'Voir Nos Biens'));
 $hero_btn2  = esc_html(lc_get_option('lc_hero_btn2', 'Nos Services'));
 
 $srv = [];
 for ($i = 1; $i <= 4; $i++) {
     $defaults = [
-        1 => ['Gestion de Copropriété', 'Gestion administrative, technique et financière des copropriétés. Suivi des charges, budgets et assemblées générales.'],
+        1 => ['Syndic de copropriété', 'Gestion administrative, technique et financière des copropriétés. Suivi des charges, budgets et assemblées générales.'],
         2 => ['Location', 'Mise en location, sélection des locataires, suivi des contrats et gestion quotidienne de vos biens locatifs.'],
         3 => ['Achat & Vente', 'Accompagnement personnalisé pour l\'achat et la vente. Valorisation, promotion et assistance jusqu\'à la finalisation.'],
         4 => ['Travaux & Maintenance', 'Entretien des équipements communs, suivi des prestataires et travaux techniques divers pour vos résidences.'],
@@ -105,7 +105,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
   <div class="sec-label rv"><?php echo esc_html(lc_get_option('lc_about_label', 'Qui Sommes-Nous')); ?></div>
   <h2 class="sec-title about-3d-title rv rv-d1"><?php echo wp_kses_post(lc_get_option('lc_about_title', 'Notre <span style="color:var(--primary)">Société</span>')); ?></h2>
   <div class="about-inner">
-    <p class="rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_about_p1', 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.')); ?></p>
+    <p class="rv rv-d2"><?php echo wp_kses_post(lc_get_option('lc_about_p1', 'Notre société est une entreprise à responsabilité limitée, expérimentée en syndic de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.')); ?></p>
     <p class="rv rv-d3"><?php echo wp_kses_post(lc_get_option('lc_about_p2', 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.')); ?></p>
   </div>
 </section>
@@ -217,7 +217,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 <div class="srv-detail">
   <div class="srv-detail-grid">
     <div class="srv-block rv">
-      <h4><?php esc_html_e('Gestion de Copropriété', 'luxurycopro'); ?></h4>
+      <h4><?php esc_html_e('Syndic de copropriété', 'luxurycopro'); ?></h4>
       <p><?php esc_html_e('Nous assurons une gestion administrative, technique et financière des copropriétaires afin de garantir le bon fonctionnement des parties communes et la préservation du patrimoine immobilier.', 'luxurycopro'); ?></p>
       <ul class="srv-list">
         <li><?php esc_html_e('Le suivi administratif et réglementaire', 'luxurycopro'); ?></li>
@@ -315,7 +315,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
 
   <div class="ambition-box rv rv-d2">
     <h3><?php esc_html_e('Notre Ambition', 'luxurycopro'); ?></h3>
-    <p><?php esc_html_e('Développer une relation de confiance durable avec nos clients en proposant des services modernes, fiables et adaptés aux exigences du secteur immobilier et de la gestion de copropriété.', 'luxurycopro'); ?></p>
+    <p><?php esc_html_e('Développer une relation de confiance durable avec nos clients en proposant des services modernes, fiables et adaptés aux exigences du secteur immobilier et du syndic de copropriété.', 'luxurycopro'); ?></p>
   </div>
 </section>
 
@@ -398,7 +398,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
         <div class="c-group">
           <label for="cfType"><?php esc_html_e('Type de Projet', 'luxurycopro'); ?></label>
           <select id="cfType">
-            <option><?php esc_html_e('Gestion de copropriété', 'luxurycopro'); ?></option>
+            <option><?php esc_html_e('Syndic de copropriété', 'luxurycopro'); ?></option>
             <option><?php esc_html_e('Je veux acheter', 'luxurycopro'); ?></option>
             <option><?php esc_html_e('Je veux vendre', 'luxurycopro'); ?></option>
             <option><?php esc_html_e('Je veux louer', 'luxurycopro'); ?></option>

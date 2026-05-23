@@ -372,7 +372,7 @@ function lc_customize_register($wp_customize) {
     $hero_fields = [
         'lc_hero_tag'   => ['label' => 'Tagline hero',          'default' => 'Copropriété & Immobilier — Marrakech'],
         'lc_hero_title' => ['label' => 'Titre hero (HTML)',      'default' => 'Votre Patrimoine,<br><em>Notre</em><br><span class="stroke">Expertise</span>'],
-        'lc_hero_desc'  => ['label' => 'Description hero',       'default' => 'Gestion de copropriété, location, achat et vente de biens immobiliers. Un accompagnement professionnel et transparent à Marrakech.'],
+        'lc_hero_desc'  => ['label' => 'Description hero',       'default' => 'Syndic de copropriété, location, achat et vente de biens immobiliers. Un accompagnement professionnel et transparent à Marrakech.'],
         'lc_hero_btn1'  => ['label' => 'Bouton 1 (texte)',       'default' => 'Voir Nos Biens'],
         'lc_hero_btn2'  => ['label' => 'Bouton 2 (texte)',       'default' => 'Nos Services'],
     ];
@@ -388,7 +388,7 @@ function lc_customize_register($wp_customize) {
         'panel' => 'lc_panel',
     ]);
     $services = [
-        1 => ['title' => 'Gestion de Copropriété', 'desc' => 'Gestion administrative, technique et financière des copropriétés. Suivi des charges, budgets et assemblées générales.'],
+        1 => ['title' => 'Syndic de copropriété', 'desc' => 'Gestion administrative, technique et financière des copropriétés. Suivi des charges, budgets et assemblées générales.'],
         2 => ['title' => 'Location', 'desc' => 'Mise en location, sélection des locataires, suivi des contrats et gestion quotidienne de vos biens locatifs.'],
         3 => ['title' => 'Achat & Vente', 'desc' => 'Accompagnement personnalisé pour l\'achat et la vente. Valorisation, promotion et assistance jusqu\'à la finalisation.'],
         4 => ['title' => 'Travaux & Maintenance', 'desc' => 'Entretien des équipements communs, suivi des prestataires et travaux techniques divers pour vos résidences.'],
@@ -409,7 +409,7 @@ function lc_customize_register($wp_customize) {
     $about_fields = [
         'lc_about_label' => ['label' => 'Petit label', 'default' => 'Qui Sommes-Nous', 'sanitize' => 'sanitize_text_field', 'type' => 'text'],
         'lc_about_title' => ['label' => 'Titre principal (HTML)', 'default' => 'Notre <span style="color:var(--primary)">Société</span>', 'sanitize' => 'wp_kses_post', 'type' => 'text'],
-        'lc_about_p1'    => ['label' => 'Premier paragraphe', 'default' => 'Notre société est une entreprise à responsabilité limitée, expérimentée dans la gestion de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
+        'lc_about_p1'    => ['label' => 'Premier paragraphe', 'default' => 'Notre société est une entreprise à responsabilité limitée, expérimentée en syndic de copropriété ainsi que dans la gestion et la valorisation des biens immobiliers. Forte d\'une approche professionnelle et rigoureuse, elle accompagne les copropriétaires dans l\'administration, la location, l\'achat et la vente de leurs biens immobiliers.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
         'lc_about_p2'    => ['label' => 'Deuxième paragraphe', 'default' => 'Grâce à une organisation fondée sur la transparence, la proximité et la qualité de service, nous veillons à assurer une gestion efficace des résidences et à répondre aux attentes de notre clientèle dans le respect des dispositions réglementaires en vigueur.', 'sanitize' => 'wp_kses_post', 'type' => 'textarea'],
     ];
     foreach ($about_fields as $id => $f) {
@@ -615,7 +615,7 @@ add_action('add_meta_boxes', 'lc_reference_meta_boxes');
 function lc_reference_meta_html($post) {
     wp_nonce_field('lc_reference_meta', 'lc_reference_nonce');
     $fields = [
-        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Copropriété', 'Gestion de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
+        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Copropriété', 'Syndic de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
         'ref_location' => ['label' => 'Localisation', 'type' => 'text'],
         'ref_desc'     => ['label' => 'Description courte', 'type' => 'textarea'],
         'ref_order'    => ['label' => 'Ordre d\'affichage (nombre)', 'type' => 'text'],
@@ -730,7 +730,7 @@ function lc_jsonld_structured_data() {
             '@type' => 'OfferCatalog',
             'name'  => 'Services immobiliers',
             'itemListElement' => [
-                ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Gestion de Copropriété']],
+                ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Syndic de copropriété']],
                 ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Location']],
                 ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Achat & Vente']],
                 ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => 'Travaux & Maintenance']],
