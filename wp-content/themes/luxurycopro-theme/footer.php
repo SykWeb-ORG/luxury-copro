@@ -96,6 +96,19 @@ if (has_custom_logo()) {
       <a href="<?php echo esc_url($legal_url); ?>"><?php esc_html_e('Mentions Légales', 'luxurycopro'); ?></a>
     </div>
   </div>
+
+  <!-- AGENCY SIGNATURE -->
+  <div class="foot-signature" id="footSignature">
+    <div class="foot-sig-line" aria-hidden="true"></div>
+    <a href="https://ibda3-digital.vercel.app/" target="_blank" rel="noopener noreferrer" class="foot-sig-link" id="footSigLink">
+      <span class="foot-sig-pulse" aria-hidden="true"></span>
+      <span class="foot-sig-label"><?php esc_html_e('Créé par', 'luxurycopro'); ?></span>
+      <span class="foot-sig-name" data-text="Ibda3 Digital">Ibda3 Digital</span>
+      <svg class="foot-sig-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+    <span class="foot-sig-sub">Digital Experiences · Branding · Web · Motion</span>
+    <canvas class="foot-sig-particles" id="footSigParticles" aria-hidden="true"></canvas>
+  </div>
 </footer>
 
 <?php wp_footer(); ?>

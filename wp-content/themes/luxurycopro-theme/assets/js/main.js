@@ -632,6 +632,102 @@ if (waFab && waWidget) {
   }
 }
 
+// ── AGENCY SIGNATURE ──
+(function(){
+  var sig = document.getElementById('footSignature');
+  var link = document.getElementById('footSigLink');
+  var canvas = document.getElementById('footSigParticles');
+  if (!sig || !link) return;
+
+  var shimmer = document.createElement('span');
+  shimmer.className = 'foot-sig-shimmer';
+  shimmer.setAttribute('aria-hidden', 'true');
+  link.appendChild(shimmer);
+
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
+    var sigLine = sig.querySelector('.foot-sig-line');
+    var sigSub = sig.querySelector('.foot-sig-sub');
+    gsap.fromTo(sigLine, { scaleX: 0 }, { scrollTrigger: { trigger: sig, start: 'top 95%', once: true }, scaleX: 1, duration: .8, ease: 'power3.out' });
+    gsap.fromTo(link, { opacity: 0, y: 20, filter: 'blur(8px)' }, { scrollTrigger: { trigger: sig, start: 'top 95%', once: true }, opacity: 1, y: 0, filter: 'blur(0px)', duration: .9, delay: .3, ease: 'power3.out' });
+    gsap.fromTo(sigSub, { opacity: 0, y: 10 }, { scrollTrigger: { trigger: sig, start: 'top 95%', once: true }, opacity: .5, y: 0, duration: .7, delay: .6, ease: 'power2.out' });
+  }
+
+  if (!canvas || prefersReducedMotion) return;
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var hoverCount = 0;
+  var burstActive = false;
+
+  function resizeCanvas() {
+    var rect = sig.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function spawnBurst(x, y) {
+    for (var i = 0; i < 24; i++) {
+      var angle = (Math.PI * 2 / 24) * i + (Math.random() - .5) * .5;
+      var speed = 1.2 + Math.random() * 2.5;
+      particles.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1,
+        decay: .012 + Math.random() * .012,
+        size: 1.5 + Math.random() * 2,
+        hue: 200 + Math.random() * 30
+      });
+    }
+    burstActive = true;
+    animateParticles();
+  }
+
+  function animateParticles() {
+    if (!burstActive) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var alive = false;
+    for (var i = particles.length - 1; i >= 0; i--) {
+      var p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += .02;
+      p.vx *= .99;
+      p.life -= p.decay;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      alive = true;
+      ctx.save();
+      ctx.globalAlpha = p.life * .7;
+      ctx.fillStyle = 'hsla(' + p.hue + ',60%,65%,' + p.life + ')';
+      ctx.shadowColor = 'hsla(' + p.hue + ',70%,60%,.5)';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    if (alive) {
+      requestAnimationFrame(animateParticles);
+    } else {
+      burstActive = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  link.addEventListener('mouseenter', function() {
+    hoverCount++;
+    if (hoverCount % 5 === 0) {
+      resizeCanvas();
+      var rect = link.getBoundingClientRect();
+      var sigRect = sig.getBoundingClientRect();
+      var cx = rect.left - sigRect.left + rect.width / 2;
+      var cy = rect.top - sigRect.top + rect.height / 2;
+      spawnBurst(cx, cy);
+    }
+  });
+})();
+
 // ── LAZY BACKGROUND IMAGES ──
 if ('IntersectionObserver' in window) {
   var lazyBgs = document.querySelectorAll('.lazy-bg');
