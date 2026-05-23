@@ -7,8 +7,8 @@
   <meta name="robots" content="index, follow">
   <link rel="alternate" hreflang="fr-MA" href="<?php echo esc_url(home_url('/')); ?>">
   <link rel="alternate" hreflang="x-default" href="<?php echo esc_url(home_url('/')); ?>">
-  <meta property="og:title" content="<?php echo esc_attr(get_bloginfo('name')); ?> — Gestion de Copropriété & Immobilier à Marrakech">
-  <meta property="og:description" content="Gestion de copropriété, location, achat et vente de biens immobiliers à Marrakech. Accompagnement professionnel et transparent.">
+  <meta property="og:title" content="<?php echo esc_attr(get_bloginfo('name')); ?> — Syndic de copropriété & Immobilier à Marrakech">
+  <meta property="og:description" content="Syndic de copropriété, location, achat et vente de biens immobiliers à Marrakech. Accompagnement professionnel et transparent.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_MA">
   <meta property="og:url" content="<?php echo esc_url(get_permalink()); ?>">

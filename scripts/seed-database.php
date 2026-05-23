@@ -71,7 +71,7 @@ function lc_seed_delete_default_content() {
 
 function lc_seed_apply_options($seed_site_url, $seed_admin_email) {
     update_option('blogname', 'Luxury Copro');
-    update_option('blogdescription', 'Gestion de copropriete et immobilier a Marrakech.');
+    update_option('blogdescription', 'Syndic de copropriété et immobilier a Marrakech.');
     update_option('admin_email', $seed_admin_email);
     update_option('timezone_string', 'Africa/Casablanca');
     update_option('date_format', 'j F Y');
@@ -101,7 +101,7 @@ function lc_seed_theme_mods() {
         'lc_ice' => '003295207000042',
         'lc_hero_tag' => 'Copropriete & Immobilier - Marrakech',
         'lc_hero_title' => 'Votre Patrimoine,<br><em>Notre</em><br><span class="stroke">Expertise</span>',
-        'lc_hero_desc' => 'Gestion de copropriete, location, achat et vente de biens immobiliers. Un accompagnement professionnel et transparent a Marrakech.',
+        'lc_hero_desc' => 'Syndic de copropriété, location, achat et vente de biens immobiliers. Un accompagnement professionnel et transparent a Marrakech.',
         'lc_hero_btn1' => 'Voir Nos Biens',
         'lc_hero_btn2' => 'Nos Services',
         'lc_about_label' => 'Qui Sommes-Nous',
@@ -116,7 +116,7 @@ function lc_seed_theme_mods() {
         'lc_biens_title_fallback' => 'Exemples de Biens<br><span style="color:var(--gold)">Disponibles</span>',
         'lc_biens_desc' => 'Decouvrez une selection de biens types pour visualiser le rendu front et lancer le projet avec une base concrete.',
         'lc_biens_desc_fallback' => 'Les biens presentes ci-dessous sont des exemples illustratifs. Pour consulter les offres reelles et actualisees, veuillez nous contacter directement.',
-        'lc_srv1_title' => 'Gestion de Copropriete',
+        'lc_srv1_title' => 'Syndic de copropriété',
         'lc_srv1_desc' => 'Gestion administrative, technique et financiere des coproprietes. Suivi des charges, budgets et assemblees generales.',
         'lc_srv2_title' => 'Location',
         'lc_srv2_desc' => 'Mise en location, selection des locataires, suivi des contrats et gestion quotidienne de vos biens locatifs.',
@@ -255,7 +255,7 @@ function lc_seed_english_translations() {
         'Tapez un message...' => 'Type a message...',
         'Envoyer' => 'Send',
         'Ouvrir WhatsApp' => 'Open WhatsApp',
-        'Gestion de Copropriété — Travaux Techniques Divers — Intérim — Immobilier. Votre partenaire de confiance à' => 'Condominium Management - Technical Works - Interim Services - Real Estate. Your trusted partner in',
+        'Syndic de copropriété — Travaux Techniques Divers — Intérim — Immobilier. Votre partenaire de confiance à' => 'Condominium Management - Technical Works - Interim Services - Real Estate. Your trusted partner in',
         'Navigation' => 'Navigation',
         'Contact' => 'Contact',
         'Tous droits réservés.' => 'All rights reserved.',
@@ -302,7 +302,7 @@ function lc_seed_english_translations() {
         'Nos Services' => 'Our Services',
         'Un Accompagnement' => 'Complete',
         'Complet' => 'Support',
-        'Gestion de Copropriété' => 'Condominium Management',
+        'Syndic de copropriété' => 'Condominium Management',
         'Nous assurons une gestion administrative, technique et financière des copropriétaires afin de garantir le bon fonctionnement des parties communes et la préservation du patrimoine immobilier.' => 'We provide administrative, technical and financial management for co-owners to keep common areas running smoothly and preserve the value of the property.',
         'Le suivi administratif et réglementaire' => 'Administrative and regulatory follow-up',
         'L\'entretien et la maintenance des équipements communs' => 'Maintenance of shared equipment',
@@ -341,7 +341,7 @@ function lc_seed_english_translations() {
         'Patrimoine Préservé' => 'Preserved Property Value',
         'Préservation et valorisation durable de votre patrimoine immobilier.' => 'Sustainable preservation and enhancement of your real estate assets.',
         'Notre Ambition' => 'Our Ambition',
-        'Développer une relation de confiance durable avec nos clients en proposant des services modernes, fiables et adaptés aux exigences du secteur immobilier et de la gestion de copropriété.' => 'Build lasting trust with our clients by providing modern, reliable services tailored to real estate and condominium management requirements.',
+        'Développer une relation de confiance durable avec nos clients en proposant des services modernes, fiables et adaptés aux exigences du secteur immobilier et du syndic de copropriété.' => 'Build lasting trust with our clients by providing modern, reliable services tailored to real estate and condominium management requirements.',
         'Société enregistrée' => 'Registered company',
         'Basés à' => 'Based in',
         'Domaines d\'activité' => 'Business areas',
@@ -369,7 +369,7 @@ function lc_seed_english_translations() {
         'Veuillez entrer votre nom' => 'Please enter your name',
         'Veuillez entrer un numéro valide' => 'Please enter a valid number',
         'Type de Projet' => 'Project Type',
-        'Gestion de copropriété' => 'Condominium management',
+        'Syndic de copropriété' => 'Condominium management',
         'Je veux acheter' => 'I want to buy',
         'Je veux vendre' => 'I want to sell',
         'Je veux louer' => 'I want to rent',
@@ -549,7 +549,7 @@ HTML;
 <h2 class="wp-block-heading">Activite</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Gestion de copropriete, travaux techniques divers et accompagnement immobilier.</p>
+<p>Syndic de copropriété, travaux techniques divers et accompagnement immobilier.</p>
 <!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Contact</h2>
@@ -827,7 +827,7 @@ function lc_seed_references() {
         [
             'title' => 'Residence Amira',
             'slug' => 'residence-amira',
-            'service' => 'Gestion de copropriete',
+            'service' => 'Syndic de copropriété',
             'location' => 'Camp El Ghoul, Marrakech',
             'desc' => 'Gestion complete de la copropriete : charges, assemblees generales, entretien des parties communes et suivi des prestataires.',
             'order' => '1',
@@ -835,7 +835,7 @@ function lc_seed_references() {
         [
             'title' => 'Residence Al Baraka',
             'slug' => 'residence-al-baraka',
-            'service' => 'Gestion de copropriete',
+            'service' => 'Syndic de copropriété',
             'location' => 'Gueliz, Marrakech',
             'desc' => 'Administration et suivi technique d\'une residence de 48 appartements avec piscine et espaces verts.',
             'order' => '2',
@@ -867,7 +867,7 @@ function lc_seed_references() {
         [
             'title' => 'Residence Nour',
             'slug' => 'residence-nour',
-            'service' => 'Gestion de copropriete',
+            'service' => 'Syndic de copropriété',
             'location' => 'Hivernage, Marrakech',
             'desc' => 'Prise en charge de la copropriete d\'une residence haut standing de 32 unites avec conciergerie.',
             'order' => '6',
