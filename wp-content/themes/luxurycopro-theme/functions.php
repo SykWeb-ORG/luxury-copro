@@ -615,7 +615,7 @@ add_action('add_meta_boxes', 'lc_reference_meta_boxes');
 function lc_reference_meta_html($post) {
     wp_nonce_field('lc_reference_meta', 'lc_reference_nonce');
     $fields = [
-        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Copropriété', 'Syndic de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
+        'ref_service'  => ['label' => 'Type de service', 'type' => 'select', 'options' => ['Syndic de copropriété', 'Location', 'Achat & Vente', 'Suivi immobilier']],
         'ref_location' => ['label' => 'Localisation', 'type' => 'text'],
         'ref_desc'     => ['label' => 'Description courte', 'type' => 'textarea'],
         'ref_order'    => ['label' => 'Ordre d\'affichage (nombre)', 'type' => 'text'],
