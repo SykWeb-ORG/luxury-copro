@@ -701,7 +701,7 @@ function lc_jsonld_structured_data() {
         '@context'     => 'https://schema.org',
         '@type'        => ['RealEstateAgent', 'LocalBusiness'],
         'name'         => $name,
-        'legalName'    => 'EZZINE SURGAR S.A.R.L.',
+        'legalName'    => 'LUXURY COPRO S.A.R.L.',
         'telephone'    => $phone,
         'email'        => $email,
         'logo'         => $logo_url,
