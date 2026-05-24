@@ -47,7 +47,7 @@ services:
       SEED_ADMIN_USER: devadmin
       SEED_ADMIN_PASSWORD: devpassword
       SEED_ADMIN_EMAIL: dev@luxury-copro.local
-      SEED_VERSION: 2026-05-20.2
+      SEED_VERSION: 2026-05-24.1
     volumes:
       - ./wp-content:/var/www/html/wp-content
       - wp_uploads:/var/www/html/wp-content/uploads

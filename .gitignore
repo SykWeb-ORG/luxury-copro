@@ -7,6 +7,8 @@ wp-content/debug.log
 
 # Runtime-installed plugins
 wp-content/plugins/polylang/
+wp-content/plugins/contact-form-7/
+wp-content/languages/plugins/contact-form-7-*
 
 # Uploads (large media files)
 wp-content/uploads/

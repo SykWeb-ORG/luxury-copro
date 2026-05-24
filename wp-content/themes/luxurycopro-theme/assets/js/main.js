@@ -543,7 +543,7 @@ function showToast(message, type) {
 function validateField(field) {
   if (!field) return true;
   var valid = true;
-  if (field.hasAttribute('required') && !field.value.trim()) valid = false;
+  if ((field.hasAttribute('required') || field.getAttribute('aria-required') === 'true') && !field.value.trim()) valid = false;
   if (field.type === 'tel' && field.value.trim() && !/^[\d\s\+\-\.()]{6,}$/.test(field.value.trim())) valid = false;
   field.classList.toggle('invalid', !valid);
   return valid;
@@ -560,13 +560,17 @@ if (cfPhone) {
 }
 
 // ── CONTACT FORM ──
+function getFieldValue(id){
+  var field = document.getElementById(id);
+  return field ? field.value.trim() : '';
+}
 function getFormData(){
   return {
-    name:   document.getElementById('cfName').value.trim(),
-    phone:  document.getElementById('cfPhone').value.trim(),
-    type:   document.getElementById('cfType').value,
-    budget: document.getElementById('cfBudget').value,
-    msg:    document.getElementById('cfMsg').value.trim()
+    name:   getFieldValue('cfName'),
+    phone:  getFieldValue('cfPhone'),
+    type:   getFieldValue('cfType'),
+    budget: getFieldValue('cfBudget'),
+    msg:    getFieldValue('cfMsg')
   };
 }
 function formatMsg(d){
@@ -610,6 +614,29 @@ if (emailBtn) {
     contactForm.reset();
   });
 }
+
+var cf7WhatsAppBtn = document.getElementById('cf7WhatsAppBtn');
+var cf7ContactForm = document.querySelector('.lc-cf7-form');
+if (cf7WhatsAppBtn && cf7ContactForm) {
+  cf7WhatsAppBtn.addEventListener('click', function(){
+    var nameOk = validateField(document.getElementById('cfName'));
+    var phoneOk = validateField(document.getElementById('cfPhone'));
+    if (!nameOk || !phoneOk) {
+      cf7ContactForm.classList.add('shake');
+      setTimeout(function(){ cf7ContactForm.classList.remove('shake'); }, 500);
+      return;
+    }
+    var d = getFormData();
+    window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(formatMsg(d)), '_blank');
+    showToast('Message envoyé via WhatsApp !');
+  });
+}
+
+document.addEventListener('wpcf7mailsent', function(e){
+  if (e.target && e.target.classList && e.target.classList.contains('lc-cf7-form')) {
+    showToast('Message envoyé par e-mail !', 'email');
+  }
+});
 
 // ── WHATSAPP WIDGET ──
 var waWidget = document.getElementById('waWidget');

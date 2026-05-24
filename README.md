@@ -20,8 +20,8 @@ Local admin credentials on a fresh clone:
 Fresh environments are bootstrapped automatically:
 
 - `scripts/seed-entrypoint.sh` waits for WordPress/MySQL, installs WordPress if needed, activates the theme, then runs the project seed once.
-- The seed container installs and activates the free Polylang multilingual plugin if it is missing.
-- `scripts/seed-database.php` creates the legal pages, theme settings, reference entries, and sample property data used for development.
+- The seed container installs and activates the free Polylang and Contact Form 7 plugins if they are missing.
+- `scripts/seed-database.php` creates the legal pages, theme settings, Contact Form 7 contact form, reference entries, and sample property data used for development.
 - Uploaded media is kept in the `wp_uploads` Docker volume so WordPress can write files without host permission issues.
 
 Useful commands:

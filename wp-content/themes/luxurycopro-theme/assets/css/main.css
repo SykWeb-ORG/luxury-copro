@@ -454,6 +454,17 @@ section{padding:5rem 5%}
 .btn-email{padding:1rem 2.4rem;background:transparent;border:1px solid var(--primary);color:var(--primary);font-weight:700;font-size:.8rem;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;border-radius:12px}
 .btn-email:hover{background:var(--primary);color:#fff;box-shadow:0 4px 20px var(--primary-dim)}
 .c-form-note{font-size:.7rem;color:var(--muted);margin-top:.3rem}
+.ct-form-card .wpcf7{margin:0}
+.ct-form-card .wpcf7 form{margin:0}
+.c-group .wpcf7-form-control-wrap{display:block}
+.c-group .wpcf7-form-control-wrap input,.c-group .wpcf7-form-control-wrap select,.c-group .wpcf7-form-control-wrap textarea{width:100%}
+.c-form-actions .wpcf7-submit{display:inline-flex;align-items:center;justify-content:center}
+.c-form-actions .wpcf7-spinner{margin:.7rem 0 0 .2rem}
+.ct-form-card .wpcf7-not-valid-tip{font-size:.7rem;color:#e74c3c;margin-top:.35rem}
+.c-group .wpcf7-not-valid{border-color:#e74c3c;background:rgba(231,76,60,.04)}
+.ct-form-card .wpcf7 form .wpcf7-response-output{margin:.2rem 0 0;padding:.9rem 1rem;border:1px solid var(--border);border-radius:12px;color:var(--muted);font-size:.82rem;line-height:1.5}
+.ct-form-card .wpcf7 form.sent .wpcf7-response-output{border-color:#25D366;color:#25D366}
+.ct-form-card .wpcf7 form.invalid .wpcf7-response-output,.ct-form-card .wpcf7 form.failed .wpcf7-response-output{border-color:#e74c3c;color:#e74c3c}
 
 @media(max-width:900px){
   .ct-location-card{grid-template-columns:1fr}
@@ -464,7 +475,8 @@ section{padding:5rem 5%}
   .ct-form-card{padding:2rem}
   .c-row{flex-direction:column}
   .c-form-actions{flex-direction:column}
-  .c-form-actions button{width:100%;text-align:center;justify-content:center}
+  .c-form-actions button,.c-form-actions input[type=submit]{width:100%;text-align:center;justify-content:center}
+  .c-form-actions .wpcf7-spinner{margin:.2rem auto}
   .ct-loc-actions{flex-direction:column}
   .ct-loc-actions a{width:100%;justify-content:center;text-align:center}
 }

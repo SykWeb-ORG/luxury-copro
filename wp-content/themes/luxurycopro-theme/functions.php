@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-define('LC_VERSION', '2.6.0');
+define('LC_VERSION', '2.7.0');
 
 /* ── HIDE ADMIN BAR ON FRONT END ── */
 add_filter('show_admin_bar', '__return_false');
@@ -112,6 +112,9 @@ function lc_defer_scripts($tag, $handle) {
     return $tag;
 }
 add_filter('script_loader_tag', 'lc_defer_scripts', 10, 2);
+
+/* ── CONTACT FORM 7: preserve theme form markup ── */
+add_filter('wpcf7_autop_or_not', '__return_false');
 
 /* ── POLYLANG INTEGRATION ── */
 function lc_polylang_string_keys() {
@@ -346,6 +349,17 @@ function lc_customize_register($wp_customize) {
         $wp_customize->add_setting($id, ['default' => $f['default'], 'sanitize_callback' => 'sanitize_text_field', 'transport' => 'refresh']);
         $wp_customize->add_control($id, ['label' => $f['label'], 'section' => 'lc_contact', 'type' => 'text']);
     }
+    $wp_customize->add_setting('lc_cf7_shortcode', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ]);
+    $wp_customize->add_control('lc_cf7_shortcode', [
+        'label'       => __('Shortcode Contact Form 7', 'luxurycopro'),
+        'description' => __('Laissez vide pour utiliser le formulaire Luxury Copro Contact généré par le seed.', 'luxurycopro'),
+        'section'     => 'lc_contact',
+        'type'        => 'text',
+    ]);
 
     // --- Section: Legal ---
     $wp_customize->add_section('lc_legal', [
@@ -473,6 +487,56 @@ function lc_get_option($key, $default = '') {
     }
 
     return $value;
+}
+
+function lc_get_contact_form_7_post() {
+    if (!post_type_exists('wpcf7_contact_form')) {
+        return null;
+    }
+
+    $form = get_page_by_path('luxury-copro-contact', OBJECT, 'wpcf7_contact_form');
+
+    if ($form instanceof WP_Post) {
+        return $form;
+    }
+
+    $forms = get_posts([
+        'post_type'      => 'wpcf7_contact_form',
+        'post_status'    => 'any',
+        'posts_per_page' => -1,
+        'fields'         => 'all',
+    ]);
+
+    foreach ($forms as $candidate) {
+        if ($candidate instanceof WP_Post && $candidate->post_title === 'Luxury Copro Contact') {
+            return $candidate;
+        }
+    }
+
+    return null;
+}
+
+function lc_contact_form_7_shortcode_from_post(WP_Post $form) {
+    return sprintf(
+        '[contact-form-7 id="%d" title="%s" html_id="lcCf7ContactForm" html_class="c-form lc-cf7-form"]',
+        absint($form->ID),
+        esc_attr($form->post_title)
+    );
+}
+
+function lc_render_contact_form_7() {
+    if (!shortcode_exists('contact-form-7')) {
+        return '';
+    }
+
+    $shortcode = trim((string) lc_get_option('lc_cf7_shortcode', ''));
+
+    if ($shortcode === '') {
+        $form = lc_get_contact_form_7_post();
+        $shortcode = $form instanceof WP_Post ? lc_contact_form_7_shortcode_from_post($form) : '';
+    }
+
+    return $shortcode !== '' ? do_shortcode($shortcode) : '';
 }
 
 function lc_translate_content_value($value) {
