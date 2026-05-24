@@ -55,7 +55,7 @@ function lc_enqueue_assets() {
     wp_enqueue_script('lc-main', get_template_directory_uri() . '/assets/js/' . $js_file, ['gsap', 'gsap-st'], LC_VERSION, true);
 
     $whatsapp = lc_get_option('lc_whatsapp', '212700727165');
-    $email    = lc_get_option('lc_email', 'ezzine.surgar@gmail.com');
+    $email    = lc_get_option('lc_email', 'ezine.surgar@gmail.com');
     wp_localize_script('lc-main', 'lcData', [
         'whatsapp' => esc_attr($whatsapp),
         'email'    => sanitize_email($email),
@@ -336,7 +336,7 @@ function lc_customize_register($wp_customize) {
         'lc_phone1'   => ['label' => 'Téléphone 1',   'default' => '07 00 72 71 65'],
         'lc_phone2'   => ['label' => 'Téléphone 2',   'default' => '06 53 64 83 82'],
         'lc_whatsapp'  => ['label' => 'WhatsApp (format international, sans +)', 'default' => '212700727165'],
-        'lc_email'     => ['label' => 'E-mail',        'default' => 'ezzine.surgar@gmail.com'],
+        'lc_email'     => ['label' => 'E-mail',        'default' => 'ezine.surgar@gmail.com'],
         'lc_address_1' => ['label' => 'Adresse ligne 1', 'default' => 'Mg Rdc Imm A, Résidence Amira'],
         'lc_address_2' => ['label' => 'Adresse ligne 2', 'default' => 'Avenue 4ème DMM, Camp El Ghoul'],
         'lc_city'      => ['label' => 'Ville',         'default' => 'Marrakech'],
@@ -690,7 +690,7 @@ function lc_get_references() {
 function lc_jsonld_structured_data() {
     $name    = 'Luxury Copro';
     $phone   = lc_get_option('lc_phone1', '07 00 72 71 65');
-    $email   = lc_get_option('lc_email', 'ezzine.surgar@gmail.com');
+    $email   = lc_get_option('lc_email', 'ezine.surgar@gmail.com');
     $addr1   = lc_get_option('lc_address_1', 'Mg Rdc Imm A, Résidence Amira');
     $addr2   = lc_get_option('lc_address_2', 'Avenue 4ème DMM, Camp El Ghoul');
     $city    = lc_get_option('lc_city', 'Marrakech');

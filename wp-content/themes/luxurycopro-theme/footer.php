@@ -1,7 +1,7 @@
 <?php
 $phone1    = esc_html(lc_get_option('lc_phone1', '07 00 72 71 65'));
 $phone2    = esc_html(lc_get_option('lc_phone2', '06 53 64 83 82'));
-$email     = sanitize_email(lc_get_option('lc_email', 'ezzine.surgar@gmail.com'));
+$email     = sanitize_email(lc_get_option('lc_email', 'ezine.surgar@gmail.com'));
 $address1  = esc_html(lc_get_option('lc_address_1', 'Mg Rdc Imm A, Résidence Amira'));
 $address2  = esc_html(lc_get_option('lc_address_2', 'Avenue 4ème DMM, Camp El Ghoul'));
 $city      = esc_html(lc_get_option('lc_city', 'Marrakech'));
