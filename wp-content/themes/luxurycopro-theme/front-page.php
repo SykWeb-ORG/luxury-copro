@@ -389,6 +389,10 @@ $is_fallback = $prop_data['source'] === 'fallback';
       <h3><?php esc_html_e('Envoyez-nous un message', 'luxurycopro'); ?></h3>
       <p><?php esc_html_e('Décrivez votre projet et nous vous répondrons dans les plus brefs délais.', 'luxurycopro'); ?></p>
     </div>
+    <?php $contact_form_html = function_exists('lc_render_contact_form_7') ? lc_render_contact_form_7() : ''; ?>
+    <?php if ($contact_form_html !== '') : ?>
+      <?php echo $contact_form_html; ?>
+    <?php else : ?>
     <form class="c-form" id="contactForm" aria-label="<?php esc_attr_e('Formulaire de contact', 'luxurycopro'); ?>">
       <div class="c-row">
         <div class="c-group"><label for="cfName"><?php esc_html_e('Nom Complet', 'luxurycopro'); ?></label><input type="text" id="cfName" placeholder="<?php esc_attr_e('Votre nom', 'luxurycopro'); ?>" required><span class="field-error"><?php esc_html_e('Veuillez entrer votre nom', 'luxurycopro'); ?></span></div>
@@ -425,6 +429,7 @@ $is_fallback = $prop_data['source'] === 'fallback';
       </div>
       <p class="c-form-note"><?php esc_html_e('Votre message sera envoyé directement sur notre WhatsApp ou par e-mail.', 'luxurycopro'); ?></p>
     </form>
+    <?php endif; ?>
   </div>
 </section>
 

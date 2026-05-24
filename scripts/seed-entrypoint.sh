@@ -30,6 +30,19 @@ install_polylang() {
   fi
 }
 
+install_contact_form_7() {
+  echo "Ensuring Contact Form 7 plugin is installed..."
+
+  if ! ${WP_CLI} plugin is-installed contact-form-7 >/dev/null 2>&1; then
+    ${WP_CLI} plugin install contact-form-7 --activate >/dev/null
+    return
+  fi
+
+  if ! ${WP_CLI} plugin is-active contact-form-7 >/dev/null 2>&1; then
+    ${WP_CLI} plugin activate contact-form-7 >/dev/null
+  fi
+}
+
 echo "Waiting for WordPress bootstrap files..."
 until [ -f "${WP_PATH}/wp-config.php" ]; do
   sleep 2
@@ -55,6 +68,7 @@ echo "Activating theme and permalink structure..."
 ${WP_CLI} theme activate luxurycopro-theme >/dev/null
 ${WP_CLI} rewrite structure "/%postname%/" --hard >/dev/null 2>&1 || true
 install_polylang
+install_contact_form_7
 
 CURRENT_VERSION="$(${WP_CLI} option get luxury_copro_seed_version 2>/dev/null || true)"
 

@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') || exit;
 
-$seed_version = '2026-05-20.2';
+$seed_version = getenv('SEED_VERSION') ?: '2026-05-24.1';
 $seed_site_url = rtrim(getenv('SEED_SITE_URL') ?: 'http://localhost:8080', '/');
 $seed_admin_email = getenv('SEED_ADMIN_EMAIL') ?: 'dev@luxury-copro.local';
 
@@ -130,6 +130,110 @@ function lc_seed_theme_mods() {
 function lc_seed_apply_theme_mods() {
     foreach (lc_seed_theme_mods() as $key => $value) {
         set_theme_mod($key, $value);
+    }
+}
+
+function lc_seed_contact_form_7_template() {
+    return trim(<<<'HTML'
+<div class="c-row">
+  <div class="c-group">
+    <label for="cfName">Nom Complet</label>
+    [text* your-name id:cfName placeholder "Votre nom"]
+  </div>
+  <div class="c-group">
+    <label for="cfPhone">Téléphone</label>
+    [tel* your-phone id:cfPhone placeholder "06 00 00 00 00"]
+  </div>
+</div>
+<div class="c-row">
+  <div class="c-group">
+    <label for="cfType">Type de Projet</label>
+    [select project-type id:cfType "Syndic de copropriété" "Je veux acheter" "Je veux vendre" "Je veux louer" "Travaux & maintenance"]
+  </div>
+  <div class="c-group">
+    <label for="cfBudget">Budget</label>
+    [select budget id:cfBudget "Moins de 500 000 MAD" "500 000 — 1 000 000 MAD" "1 000 000 — 3 000 000 MAD" "Plus de 3 000 000 MAD"]
+  </div>
+</div>
+<div class="c-group">
+  <label for="cfMsg">Message</label>
+  [textarea your-message id:cfMsg placeholder "Décrivez votre projet immobilier..."]
+</div>
+<div class="c-form-actions">
+  <button type="button" class="btn-wa" id="cf7WhatsAppBtn" style="border:none;font-family:'Inter',sans-serif">Envoyer via WhatsApp</button>
+  [submit class:btn-email "Envoyer par E-mail"]
+</div>
+<p class="c-form-note">Votre message sera envoyé directement sur notre WhatsApp ou par e-mail.</p>
+HTML);
+}
+
+function lc_seed_contact_form_7() {
+    if (!class_exists('WPCF7_ContactForm')) {
+        lc_seed_log('Contact Form 7 is not active; skipping contact form seed.');
+        return;
+    }
+
+    if (!post_type_exists('wpcf7_contact_form') && function_exists('wpcf7_register_post_types')) {
+        wpcf7_register_post_types();
+    }
+
+    $existing = get_page_by_path('luxury-copro-contact', OBJECT, 'wpcf7_contact_form');
+    $contact_form = $existing instanceof WP_Post
+        ? WPCF7_ContactForm::get_instance($existing->ID)
+        : WPCF7_ContactForm::get_template(['title' => 'Luxury Copro Contact']);
+
+    if (!$contact_form instanceof WPCF7_ContactForm) {
+        lc_seed_log('Unable to prepare the Contact Form 7 form.');
+        return;
+    }
+
+    $mail = WPCF7_ContactFormTemplate::get_default('mail');
+    $mail['recipient'] = lc_get_option('lc_email', get_option('admin_email'));
+    $mail['subject'] = 'Nouveau contact - [project-type] - [your-name]';
+    $mail['sender'] = '[_site_title] <' . WPCF7_ContactFormTemplate::from_email() . '>';
+    $mail['additional_headers'] = '';
+    $mail['body'] = trim(<<<'MAIL'
+Nouveau message depuis le site Luxury Copro.
+
+Nom: [your-name]
+Téléphone: [your-phone]
+Projet: [project-type]
+Budget: [budget]
+
+Message:
+[your-message]
+
+--
+Formulaire envoyé depuis [_site_title] ([_site_url]).
+MAIL);
+
+    $messages = WPCF7_ContactFormTemplate::get_default('messages');
+    $messages['mail_sent_ok'] = 'Merci, votre message a bien été envoyé.';
+    $messages['mail_sent_ng'] = 'Une erreur est survenue pendant l’envoi. Veuillez réessayer.';
+    $messages['validation_error'] = 'Veuillez vérifier les champs indiqués.';
+    $messages['invalid_required'] = 'Veuillez renseigner ce champ.';
+
+    $contact_form->set_title('Luxury Copro Contact');
+    $contact_form->set_properties([
+        'form' => lc_seed_contact_form_7_template(),
+        'mail' => $mail,
+        'mail_2' => WPCF7_ContactFormTemplate::get_default('mail_2'),
+        'messages' => $messages,
+        'additional_settings' => '',
+    ]);
+
+    $post_id = $contact_form->save();
+
+    if ($post_id) {
+        wp_update_post([
+            'ID' => $post_id,
+            'post_name' => 'luxury-copro-contact',
+        ]);
+        set_theme_mod('lc_cf7_shortcode', sprintf(
+            '[contact-form-7 id="%d" title="Luxury Copro Contact" html_id="lcCf7ContactForm" html_class="c-form lc-cf7-form"]',
+            absint($post_id)
+        ));
+        lc_seed_log('Seeded Contact Form 7 form: Luxury Copro Contact.');
     }
 }
 
@@ -898,6 +1002,7 @@ lc_seed_delete_default_content();
 lc_seed_apply_options($seed_site_url, $seed_admin_email);
 lc_seed_polylang_languages();
 lc_seed_apply_theme_mods();
+lc_seed_contact_form_7();
 $page_ids = lc_seed_pages();
 lc_seed_polylang_page_translations($page_ids);
 lc_seed_properties();
