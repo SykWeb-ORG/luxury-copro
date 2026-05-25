@@ -58,6 +58,27 @@ LC_POLYLANG_ASSIGN_EXISTING_CONTENT=0 WP_PATH="$PWD" scripts/seed-polylang-produ
 LC_POLYLANG_HIDE_DEFAULT=0 WP_PATH="$PWD" scripts/seed-polylang-production.sh
 ```
 
+## Production Contact Form 7 Seed
+
+Use the production CF7 seed over SSH after the WordPress site and `luxurycopro-theme` are already installed. It installs/activates Contact Form 7 if needed, creates or updates only the managed `Luxury Copro Contact` form, stores the form shortcode in the theme option `lc_cf7_shortcode`, and leaves all other content untouched.
+
+It does not install WordPress, activate the theme, change `home` / `siteurl`, delete content, or create demo properties/pages.
+
+From the production WordPress root:
+
+```sh
+wp db export before-cf7-$(date +%F-%H%M).sql
+LC_CF7_RECIPIENT="contact@example.com" WP_PATH="$PWD" scripts/seed-cf7-production.sh
+```
+
+Useful overrides:
+
+```sh
+LC_CF7_OVERWRITE_EXISTING=0 WP_PATH="$PWD" scripts/seed-cf7-production.sh
+LC_CF7_INSTALL_PLUGIN=0 WP_PATH="$PWD" scripts/seed-cf7-production.sh
+LC_CF7_FORM_TITLE="Luxury Copro Contact" LC_CF7_FORM_SLUG="luxury-copro-contact" WP_PATH="$PWD" scripts/seed-cf7-production.sh
+```
+
 ## Local File Permissions
 
 The local WordPress images remap the container `www-data` user to the host UID/GID configured by `WORDPRESS_UID` and `WORDPRESS_GID`. This keeps the host user and wp-admin running with matching ownership on the bind-mounted `./wp-content` directory, so plugin updates, language updates, and theme writes can use WordPress' direct filesystem method.
